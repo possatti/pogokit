@@ -151,7 +151,7 @@ def main(args):
 	# base_attack = np.round(scaled_attack * speed_mod)
 	# base_defense = np.round(scaled_defense * speed_mod)
 	scaled_attack  = calc_scaled_attack(max_atk,  min_atk)
-	scaled_defense = calc_scaled_defense(max_atk, min_atk)
+	scaled_defense = calc_scaled_defense(max_def, min_def)
 	speed_mod = calc_speed_mod(veekun_df['speed'])
 	calc_df['attack']  = calc_base_attack(scaled_attack,   speed_mod)
 	calc_df['defense'] = calc_base_defense(scaled_defense, speed_mod)
@@ -182,14 +182,20 @@ def main(args):
 
 	# join = calc_df.join(gp_df.set_index('number'), on='species_id', lsuffix='_calc', rsuffix='_gp', how='right')
 	# compare_df = calc_df.set_index('species_id').join(gp_df.set_index('number'), lsuffix='_calc', rsuffix='_gp', how='right')
-	compare_df = calc_df.join(gp_df.set_index('number'), lsuffix='_calc', rsuffix='_gp', how='right')
+	compare_df = calc_df.join(gp_df.set_index('number'), lsuffix='_calc', rsuffix='_gp', how='inner')
 	compare_df = compare_df[['identifier', 'attack_calc', 'attack_gp', 'defense_calc', 'defense_gp', 'stamina_calc', 'stamina_gp', 'max_cp_calc', 'max_cp_gp']]
-	print('Total entries:', len(compare_df), file=sys.stderr)
-	equal_df = compare_df.loc[compare_df['max_cp_calc']==compare_df['max_cp_gp']]
+	# equal_df = compare_df.loc[compare_df['max_cp_calc']==compare_df['max_cp_gp']]
 	different_df = compare_df.loc[compare_df['max_cp_calc']!=compare_df['max_cp_gp']]
-	print('Different entries:', len(compare_df), file=sys.stderr)
-	print("equal_df:\n", equal_df, file=sys.stderr) #!#
+	# print("equal_df:\n", equal_df, file=sys.stderr) #!#
 	print("different_df:\n", different_df, file=sys.stderr) #!#
+	print('Total entries:', len(compare_df), file=sys.stderr)
+	print('Different attack:', (compare_df['attack_calc']!=compare_df['attack_gp']).sum(), file=sys.stderr)
+	filtered_veekun_df = veekun_df.loc[compare_df.index]
+	same_defense = (filtered_veekun_df['def']!=filtered_veekun_df['s_def']).sum()
+	print('Same defense stat:', same_defense, file=sys.stderr)
+	print('Different defense:', (compare_df['defense_calc']!=compare_df['defense_gp']).sum(), file=sys.stderr)
+	print('Different stamina:', (compare_df['stamina_calc']!=compare_df['stamina_gp']).sum(), file=sys.stderr)
+	print('Different entries:', len(different_df), file=sys.stderr)
 
 def parse_args():
 	parser = argparse.ArgumentParser(description='')
