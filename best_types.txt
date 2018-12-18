@@ -1,59 +1,61 @@
 Type advantage:
-          attacking  defending   overall
-Steel      1.016667   0.857812  0.937240
-Poison     0.949479   0.962500  0.955990
-Normal     0.924479   0.999479  0.961979
-Electric   0.970312   0.970833  0.970573
-Ghost      1.011979   0.957292  0.984635
-Bug        0.954167   1.037500  0.995833
-Dragon     0.978646   1.016667  0.997656
-Fairy      1.037500   0.970312  1.003906
-Water      1.037500   0.983333  1.010417
-Fire       1.050000   0.975000  1.012500
-Dark       1.004167   1.024479  1.014323
-Grass      0.954167   1.083333  1.018750
-Flying     1.037500   1.003646  1.020573
-Psychic    0.991146   1.058333  1.024740
-Fighting   1.028646   1.037500  1.033073
-Ground     1.091146   1.024479  1.057812
-Rock       1.070833   1.083333  1.077083
-Ice        1.050000   1.112500  1.081250
+          attacking  defending  defending_inv   overall
+Ground     1.600000   0.625000       1.375000  1.487500
+Fairy      1.000000   0.244141       1.755859  1.377930
+Fire       1.000000   0.244141       1.755859  1.377930
+Steel      0.625000   0.014552       1.985448  1.305224
+Flying     1.000000   0.390625       1.609375  1.304688
+Water      1.000000   0.390625       1.609375  1.304688
+Ghost      0.625000   0.152588       1.847412  1.236206
+Rock       1.600000   1.600000       0.400000  1.000000
+Dark       0.625000   0.625000       1.375000  1.000000
+Poison     0.152588   0.244141       1.755859  0.954224
+Electric   0.244141   0.390625       1.609375  0.926758
+Dragon     0.390625   0.625000       1.375000  0.882812
+Normal     0.152588   0.625000       1.375000  0.763794
+Fighting   0.390625   1.000000       1.000000  0.695312
+Bug        0.152588   1.000000       1.000000  0.576294
+Psychic    0.390625   1.600000       0.400000  0.395312
+Grass      0.152588   1.600000       0.400000  0.276294
+Ice        1.000000   4.096000      -2.096000 -0.548000
 
 Best trios by attacking advantage:
-                      attacking  defending   overall
-Fire-Ground-Rock       1.070660   1.027604  1.049132
-Ice-Ground-Rock        1.070660   1.073438  1.072049
-Water-Ground-Rock      1.066493   1.030382  1.048437
-Ground-Flying-Rock     1.066493   1.037153  1.051823
-Ground-Rock-Fairy      1.066493   1.026042  1.046267
-Fire-Ice-Ground        1.063715   1.037326  1.050521
-Fighting-Ground-Rock   1.063542   1.048438  1.055990
-Fire-Water-Ground      1.059549   0.994271  1.026910
-Ice-Ground-Flying      1.059549   1.046875  1.053212
-Water-Ice-Ground       1.059549   1.040104  1.049826
+                        attacking  defending  defending_inv   overall
+Ice-Fighting-Ground    281.474977 109.951163    -107.951163 86.761907
+Fighting-Ground-Flying 175.921860  42.949673     -40.949673 67.486094
+Ice-Ground-Ghost       175.921860  68.719477     -66.719477 54.601192
+Ground-Rock-Fairy      175.921860  26.843546     -24.843546 75.539157
+Ice-Fighting-Psychic   175.921860 109.951163    -107.951163 33.985349
+Ice-Fighting-Rock      175.921860 109.951163    -107.951163 33.985349
+Ice-Fighting-Flying    175.921860  68.719477     -66.719477 54.601192
+Ground-Bug-Rock        175.921860  68.719477     -66.719477 54.601192
+Fire-Ice-Ground        175.921860  42.949673     -40.949673 67.486094
+Ice-Ground-Fairy       175.921860  42.949673     -40.949673 67.486094
 
 Best trios by defending advantage:
-                    attacking  defending   overall
-Grass-Ice-Rock       1.025000   1.093056  1.059028
-Grass-Ice-Psychic    0.998437   1.084722  1.041580
-Ice-Psychic-Rock     1.037326   1.084722  1.061024
-Grass-Ice-Fighting   1.010938   1.077778  1.044358
-Ice-Bug-Rock         1.025000   1.077778  1.051389
-Grass-Ice-Bug        0.986111   1.077778  1.031944
-Ice-Fighting-Rock    1.049826   1.077778  1.063802
-Grass-Psychic-Rock   1.005382   1.075000  1.040191
-Grass-Ice-Ground     1.031771   1.073438  1.052604
-Ice-Ground-Rock      1.070660   1.073438  1.072049
+                        attacking  defending  defending_inv   overall
+Normal-Electric-Poison   6.553600   4.096000      -2.096000  2.228800
+Fire-Poison-Steel       16.777216   4.096000      -2.096000  7.340608
+Normal-Electric-Steel   10.485760   4.096000      -2.096000  4.194880
+Normal-Electric-Dark     6.553600   6.553600      -4.553600  1.000000
+Water-Electric-Poison   26.843546   6.553600      -4.553600 11.144973
+Normal-Electric-Fairy   10.485760   6.553600      -4.553600  2.966080
+Electric-Poison-Steel   16.777216   6.553600      -4.553600  6.111808
+Electric-Poison-Fairy   26.843546   6.553600      -4.553600 11.144973
+Normal-Fire-Electric    16.777216   6.553600      -4.553600  6.111808
+Normal-Psychic-Ghost     6.553600   6.553600      -4.553600  1.000000
 
 Best trios by overall advantage:
-                      attacking  defending   overall
-Ice-Ground-Rock        1.070660   1.073438  1.072049
-Ice-Fighting-Rock      1.049826   1.077778  1.063802
-Ice-Psychic-Rock       1.037326   1.084722  1.061024
-Ice-Flying-Rock        1.052778   1.066493  1.059635
-Grass-Ice-Rock         1.025000   1.093056  1.059028
-Ice-Rock-Dark          1.041667   1.073438  1.057552
-Ice-Fighting-Ground    1.056597   1.058160  1.057378
-Fire-Ice-Rock          1.056944   1.056944  1.056944
-Water-Ice-Rock         1.052778   1.059722  1.056250
-Fighting-Ground-Rock   1.063542   1.048438  1.055990
+                        attacking  defending  defending_inv   overall
+Ice-Fighting-Ground    281.474977 109.951163    -107.951163 86.761907
+Ground-Rock-Fairy      175.921860  26.843546     -24.843546 75.539157
+Fire-Ground-Fairy      175.921860  26.843546     -24.843546 75.539157
+Ice-Ground-Bug         175.921860  42.949673     -40.949673 67.486094
+Ice-Fighting-Dark      175.921860  42.949673     -40.949673 67.486094
+Fire-Ice-Ground        175.921860  42.949673     -40.949673 67.486094
+Fighting-Ground-Flying 175.921860  42.949673     -40.949673 67.486094
+Ice-Ground-Fairy       175.921860  42.949673     -40.949673 67.486094
+Ice-Ground-Rock        175.921860  42.949673     -40.949673 67.486094
+Ice-Ground-Flying      175.921860  42.949673     -40.949673 67.486094
+
+PS: Still working on this trio thing. By now they don't mean much.

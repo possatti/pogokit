@@ -12,6 +12,8 @@ import math
 import sys
 import os
 
+pd.set_option('display.float_format', '{:.6f}'.format)
+
 def parse_args():
 	parser = argparse.ArgumentParser(description='')
 	parser.add_argument('--type-chart-csv', default=os.path.join(os.path.dirname(__file__), 'data', 'type_chart.csv'))
@@ -37,11 +39,16 @@ def main(args):
 	# 		print(dual_type_name)
 	# exit(3)
 
-	attacking_advantage = df.mean(axis=1)
-	defending_advantage = df.mean(axis=0)
+	# attacking_advantage = df.mean(axis=1)
+	# defending_advantage = df.mean(axis=0)
+	attacking_advantage = df.prod(axis=1)
+	defending_advantage = df.prod(axis=0)
 	advantage = pd.DataFrame({'attacking': attacking_advantage, 'defending': defending_advantage})
-	advantage['overall'] = advantage.mean(axis=1)
-	advantage.sort_values(by='overall', inplace=True)
+	advantage['defending_inv'] = (defending_advantage-1)*-1 + 1
+	# advantage['overall'] = advantage.mean(axis=1)
+	# advantage['overall'] = ((advantage['attacking']-1) + ((advantage['defending']-1)*-1)) / 2
+	advantage['overall'] = (advantage['attacking'] + advantage['defending_inv']) / 2
+	advantage.sort_values(by='overall', ascending=False, inplace=True)
 	advantage.index.name = None
 	print("Type advantage:\n{}".format(advantage))
 
@@ -56,24 +63,32 @@ def main(args):
 				type_names = [p_types[t1], p_types[t2], p_types[t3]]
 				trio_name = '-'.join(type_names)
 				trio_mean_row = df.loc[df.index.isin(type_names),:].mean(axis=0)
-				# print("np.mean(df.loc[df.index.isin(type_names),:]):\n", np.mean(df.loc[df.index.isin(type_names),:].values), file=sys.stderr) #!#
-				atk_advantage = np.mean(df.loc[df.index.isin(type_names),:].values)
-				def_advantage = np.mean(df.loc[:,df.index.isin(type_names)].values)
+				# # Old mean thing:
+				# atk_advantage = np.mean(df.loc[df.index.isin(type_names),:].values)
+				# def_advantage = np.mean(df.loc[:,df.index.isin(type_names)].values)
+				# # New scheme using prod:
+				# atk_advantage = np.prod(df.loc[df.index.isin(type_names),:].values)
+				# def_advantage = np.prod(df.loc[:,df.index.isin(type_names)].values)
+				# # Using prod, but taking the best attack multipliers and worst defending multipliers:
+				atk_advantage = df.loc[df.index.isin(type_names),:].max(axis=0).prod()
+				def_advantage = df.loc[:,df.index.isin(type_names)].max(axis=1).prod()
 				trio_name_list.append(trio_name)
 				trio_attacking_advantage.append(atk_advantage)
 				trio_defending_advantage.append(def_advantage)
 	trio_advantage = pd.DataFrame({'attacking': trio_attacking_advantage, 'defending': trio_defending_advantage}, index=trio_name_list)
-	trio_advantage['overall'] = trio_advantage.mean(axis=1)
+	trio_advantage['defending_inv'] = (trio_advantage['defending']-1)*-1 + 1
+	trio_advantage['overall'] = (trio_advantage['attacking'] + trio_advantage['defending_inv']) / 2
 
 	print('\nBest trios by attacking advantage:')
 	print(trio_advantage.sort_values(by='attacking', ascending=False)[:10])
 
 	print('\nBest trios by defending advantage:')
-	print(trio_advantage.sort_values(by='defending', ascending=False)[:10])
+	print(trio_advantage.sort_values(by='defending_inv', ascending=False)[:10])
 
 	print('\nBest trios by overall advantage:')
 	print(trio_advantage.sort_values(by='overall', ascending=False)[:10])
 
+	print('\nPS: Still working on this trio thing. By now they don\'t mean much.')
 
 
 if __name__ == '__main__':
