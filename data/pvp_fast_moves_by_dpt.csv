@@ -1,0 +1,55 @@
+name,type_name,power,energyDelta,durationTurns,DPT,EPT
+Counter,Fighting,8.0,7.0,1,8.0,7.0
+Razor Leaf,Grass,8.0,4.0,1,8.0,4.0
+Rock Throw,Rock,8.0,5.0,1,8.0,5.0
+Fire Fang,Fire,7.0,5.0,1,7.0,5.0
+Steel Wing,Steel,7.0,5.0,1,7.0,5.0
+Poison Jab,Poison,6.0,7.0,1,6.0,7.0
+Ember,Fire,6.0,6.0,1,6.0,6.0
+Peck,Flying,6.0,5.0,1,6.0,5.0
+Shadow Claw,Ghost,6.0,7.0,1,6.0,7.0
+Feint Attack,Dark,6.0,6.0,1,6.0,6.0
+Bullet Punch,Steel,6.0,7.0,1,6.0,7.0
+Frost Breath,Ice,6.0,5.0,1,6.0,5.0
+Acid,Poison,6.0,5.0,1,6.0,5.0
+Sucker Punch,Dark,5.0,7.0,1,5.0,7.0
+Waterfall,Water,10.0,8.0,2,5.0,4.0
+Metal Claw,Steel,5.0,6.0,1,5.0,6.0
+Smack Down,Rock,10.0,8.0,2,5.0,4.0
+Pound,Normal,5.0,4.0,1,5.0,4.0
+Vine Whip,Grass,5.0,8.0,1,5.0,8.0
+Karate Chop,Fighting,5.0,7.0,1,5.0,7.0
+Wing Attack,Flying,5.0,7.0,1,5.0,7.0
+Quick Attack,Normal,5.0,7.0,1,5.0,7.0
+Rock Smash,Fighting,9.0,7.0,2,4.5,3.5
+Struggle Bug,Bug,9.0,8.0,2,4.5,4.0
+Fire Spin,Fire,9.0,10.0,2,4.5,5.0
+Air Slash,Flying,9.0,9.0,2,4.5,4.5
+Dragon Tail,Dragon,9.0,10.0,2,4.5,5.0
+Mud Slap,Ground,9.0,8.0,2,4.5,4.0
+Iron Tail,Steel,9.0,6.0,2,4.5,3.0
+Hidden Power,Normal,9.0,8.0,2,4.5,4.0
+Ice Shard,Ice,8.0,10.0,2,4.0,5.0
+Low Kick,Fighting,4.0,5.0,1,4.0,5.0
+Powder Snow,Ice,4.0,8.0,1,4.0,8.0
+Snarl,Dark,8.0,10.0,2,4.0,5.0
+Extrasensory,Psychic,8.0,10.0,2,4.0,5.0
+Bubble,Water,8.0,11.0,2,4.0,5.5
+Confusion,Psychic,12.0,12.0,3,4.0,4.0
+Zen Headbutt,Psychic,8.0,6.0,2,4.0,3.0
+Spark,Electric,4.0,8.0,1,4.0,8.0
+Hex,Ghost,6.0,11.0,2,3.0,5.5
+Volt Switch,Electric,12.0,10.0,4,3.0,2.5
+Infestation,Bug,6.0,11.0,2,3.0,5.5
+Psycho Cut,Psychic,3.0,9.0,1,3.0,9.0
+Thunder Shock,Electric,3.0,9.0,1,3.0,9.0
+Mud Shot,Ground,3.0,9.0,1,3.0,9.0
+Poison Sting,Poison,3.0,6.0,1,3.0,6.0
+Astonish,Ghost,5.0,9.0,2,2.5,4.5
+Bullet Seed,Grass,5.0,11.0,2,2.5,5.5
+Charge Beam,Electric,5.0,11.0,2,2.5,5.5
+Take Down,Normal,5.0,8.0,2,2.5,4.0
+Present,Normal,3.0,12.0,2,1.5,6.0
+Splash,Water,,12.0,3,,4.0
+Transform,Normal,,,2,,
+Yawn,Normal,,12.0,3,,4.0
