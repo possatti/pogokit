@@ -1,0 +1,135 @@
+                         name type_name  power   ΔE  DP100E       DPE
+0                 Doom Desire     Steel   80.0  -35     228  2.285714
+1                Hydro Cannon     Water   90.0  -40     225  2.250000
+2                Frenzy Plant     Grass  100.0  -45     222  2.222222
+3                  Blast Burn      Fire  110.0  -50     220  2.200000
+4                Origin Pulse     Water  130.0  -60     216  2.166667
+5            Precipice Blades    Ground  130.0  -60     216  2.166667
+6                Draco Meteor    Dragon  150.0  -75     200  2.000000
+7                   Avalanche       Ice   90.0  -45     200  2.000000
+8                 Meteor Mash     Steel  100.0  -50     200  2.000000
+9                 Focus Blast  Fighting  150.0  -75     200  2.000000
+10                 Leaf Blade     Grass   70.0  -35     200  2.000000
+11                 Hyper Beam    Normal  150.0  -80     187  1.875000
+12                   Overheat      Fire  150.0  -80     187  1.875000
+13                 Solar Beam     Grass  150.0  -80     187  1.875000
+14                 Zap Cannon  Electric  150.0  -80     187  1.875000
+15                  Moonblast     Fairy  130.0  -70     185  1.857143
+16                 Earthquake    Ground  120.0  -65     184  1.846154
+17                Futuresight   Psychic  120.0  -65     184  1.846154
+18                    Outrage    Dragon  110.0  -60     183  1.833333
+19                  Psystrike   Psychic  100.0  -55     181  1.818182
+20                Shadow Ball     Ghost  100.0  -55     181  1.818182
+21                 Stone Edge      Rock  100.0  -55     181  1.818182
+22                 Power Whip     Grass   90.0  -50     180  1.800000
+23              Dynamic Punch  Fighting   90.0  -50     180  1.800000
+24                Wild Charge  Electric   90.0  -50     180  1.800000
+25                 Grass Knot     Grass   90.0  -50     180  1.800000
+26                 Sky Attack    Flying   80.0  -45     177  1.777778
+27                 Rock Slide      Rock   80.0  -45     177  1.777778
+28                Thunderbolt  Electric   80.0  -45     177  1.777778
+29               Psycho Boost   Psychic   70.0  -40     175  1.750000
+30                 Fire Blast      Fire  140.0  -80     175  1.750000
+31                   Blizzard       Ice  130.0  -75     173  1.733333
+32                 Hydro Pump     Water  130.0  -75     173  1.733333
+33                  Gunk Shot    Poison  130.0  -75     173  1.733333
+34         Weather Ball Water     Water   60.0  -35     171  1.714286
+35          Weather Ball Rock      Rock   60.0  -35     171  1.714286
+36           Weather Ball Ice       Ice   60.0  -35     171  1.714286
+37          Weather Ball Fire      Fire   60.0  -35     171  1.714286
+38               Flash Cannon     Steel  110.0  -65     169  1.692308
+39                  Hurricane    Flying  110.0  -65     169  1.692308
+40             Petal Blizzard     Grass  110.0  -65     169  1.692308
+41                Sludge Wave    Poison  110.0  -65     169  1.692308
+42               Close Combat  Fighting  100.0  -60     166  1.666667
+43                    Thunder  Electric  100.0  -60     166  1.666667
+44                 Brave Bird    Flying   90.0  -55     163  1.636364
+45                Last Resort    Normal   90.0  -55     163  1.636364
+46                   Megahorn       Bug   90.0  -55     163  1.636364
+47                   Ice Beam       Ice   90.0  -55     163  1.636364
+48                       Surf     Water   65.0  -40     162  1.625000
+49                 Hyper Fang    Normal   80.0  -50     160  1.600000
+50                 Dark Pulse      Dark   80.0  -50     160  1.600000
+51                Sludge Bomb    Poison   80.0  -50     160  1.600000
+52                  Foul Play      Dark   70.0  -45     155  1.555556
+53                     Crunch      Dark   70.0  -45     155  1.555556
+54            Disarming Voice     Fairy   70.0  -45     155  1.555556
+55              Ancient Power      Rock   70.0  -45     155  1.555556
+56                Magnet Bomb     Steel   70.0  -45     155  1.555556
+57                Silver Wind       Bug   70.0  -45     155  1.555556
+58                 Play Rough     Fairy   90.0  -60     150  1.500000
+59                Energy Ball     Grass   90.0  -60     150  1.500000
+60               Dragon Pulse    Dragon   90.0  -60     150  1.500000
+61   Water Gun Fast Blastoise     Water    6.0    4     150  1.500000
+62                 Drill Peck    Flying   60.0  -40     150  1.500000
+63                   Bug Buzz       Bug   90.0  -60     150  1.500000
+64                  Drill Run    Ground   80.0  -55     145  1.454545
+65                  Discharge  Electric   65.0  -45     144  1.444444
+66                   Psyshock   Psychic   65.0  -45     144  1.444444
+67                  Body Slam    Normal   50.0  -35     142  1.428571
+68                       Rest    Normal   50.0  -35     142  1.428571
+69                    Psychic   Psychic  100.0  -70     142  1.428571
+70             Dazzling Gleam     Fairy  100.0  -70     142  1.428571
+71                 Cross Chop  Fighting   50.0  -35     142  1.428571
+72                  Aqua Tail     Water   50.0  -35     142  1.428571
+73                Dragon Claw    Dragon   50.0  -35     142  1.428571
+74               Flamethrower      Fire   70.0  -50     140  1.400000
+75               Flame Charge      Fire   70.0  -50     140  1.400000
+76                 Heavy Slam     Steel   70.0  -50     140  1.400000
+77                  Seed Bomb     Grass   55.0  -40     137  1.375000
+78                 Fire Punch      Fire   55.0  -40     137  1.375000
+79                      Stomp    Normal   55.0  -40     137  1.375000
+80                   Mud Bomb    Ground   55.0  -40     137  1.375000
+81                Signal Beam       Bug   75.0  -55     136  1.363636
+82                  Gyro Ball     Steel   80.0  -60     133  1.333333
+83                  Sand Tomb    Ground   80.0  -60     133  1.333333
+84                Aurora Beam       Ice   80.0  -60     133  1.333333
+85                       Wrap    Normal   60.0  -45     133  1.333333
+86                  Power Gem      Rock   80.0  -60     133  1.333333
+87                   Icy Wind       Ice   60.0  -45     133  1.333333
+88                      Scald     Water   80.0  -60     133  1.333333
+89                   Bulldoze    Ground   80.0  -60     133  1.333333
+90              Thunder Punch  Electric   45.0  -35     128  1.285714
+91                  X Scissor       Bug   45.0  -35     128  1.285714
+92                Flame Burst      Fire   70.0  -55     127  1.272727
+93                  Heat Wave      Fire   95.0  -75     126  1.266667
+94                 Rock Blast      Rock   50.0  -40     125  1.250000
+95                     Sludge    Poison   50.0  -40     125  1.250000
+96                        Dig    Ground  100.0  -80     125  1.250000
+97                  Ice Punch       Ice   50.0  -40     125  1.250000
+98                Night Slash      Dark   50.0  -40     125  1.250000
+99               Ominous Wind     Ghost   50.0  -40     125  1.250000
+100                Aerial Ace    Flying   55.0  -45     122  1.222222
+101                Submission  Fighting   60.0  -50     120  1.200000
+102                 Iron Head     Steel   60.0  -50     120  1.200000
+103                     Brine     Water   60.0  -50     120  1.200000
+104               Water Pulse     Water   70.0  -60     116  1.166667
+105                   Psybeam   Psychic   70.0  -60     116  1.166667
+106                 Rock Tomb      Rock   70.0  -60     116  1.166667
+107              Cross Poison    Poison   40.0  -35     114  1.142857
+108               Brick Break  Fighting   40.0  -35     114  1.142857
+109               Poison Fang    Poison   40.0  -35     114  1.142857
+110              Shadow Punch     Ghost   40.0  -35     114  1.142857
+111               Horn Attack    Normal   40.0  -35     114  1.142857
+112                 Bone Club    Ground   40.0  -35     114  1.142857
+113               Bubble Beam     Water   45.0  -40     112  1.125000
+114      Hydro Pump Blastoise     Water   90.0  -80     112  1.125000
+115              Shadow Sneak     Ghost   50.0  -45     111  1.111111
+116                     Swift    Normal   60.0  -55     109  1.090909
+117               Mirror Coat   Psychic   60.0  -55     109  1.090909
+118               Flame Wheel      Fire   60.0  -55     109  1.090909
+119             Draining Kiss     Fairy   60.0  -55     109  1.090909
+120                Air Cutter    Flying   60.0  -55     109  1.090909
+121               Night Shade     Ghost   60.0  -55     109  1.090909
+122               Heart Stamp   Psychic   40.0  -40     100  1.000000
+123                   Twister    Dragon   45.0  -45     100  1.000000
+124                 Vice Grip    Normal   40.0  -40     100  1.000000
+125                 Low Sweep  Fighting   40.0  -40     100  1.000000
+126                  Aqua Jet     Water   45.0  -45     100  1.000000
+127           Scald Blastoise     Water   50.0  -80      62  0.625000
+128                Giga Drain     Grass   50.0  -80      62  0.625000
+129                Wrap Green    Normal   25.0  -45      55  0.555556
+130                 Wrap Pink    Normal   25.0  -45      55  0.555556
+131          Parabolic Charge  Electric   25.0  -55      45  0.454545
+132                Mega Drain     Grass   25.0  -55      45  0.454545
+133                  Struggle    Normal   35.0 -100      35  0.350000

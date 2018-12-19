@@ -1,0 +1,64 @@
+             name type_name  power    ΔE  turns  DPT  EPT  zepdoos
+0      Psycho Cut   Psychic    3.0   9.0      1  3.0  9.0     15.6
+1   Thunder Shock  Electric    3.0   9.0      1  3.0  9.0     15.6
+2        Mud Shot    Ground    3.0   9.0      1  3.0  9.0     15.6
+3     Powder Snow       Ice    4.0   8.0      1  4.0  8.0     15.2
+4           Spark  Electric    4.0   8.0      1  4.0  8.0     15.2
+5       Vine Whip     Grass    5.0   8.0      1  5.0  8.0     16.2
+6     Wing Attack    Flying    5.0   7.0      1  5.0  7.0     14.8
+7    Bullet Punch     Steel    6.0   7.0      1  6.0  7.0     15.8
+8      Poison Jab    Poison    6.0   7.0      1  6.0  7.0     15.8
+9    Quick Attack    Normal    5.0   7.0      1  5.0  7.0     14.8
+10    Shadow Claw     Ghost    6.0   7.0      1  6.0  7.0     15.8
+11    Karate Chop  Fighting    5.0   7.0      1  5.0  7.0     14.8
+12        Counter  Fighting    8.0   7.0      1  8.0  7.0     17.8
+13   Sucker Punch      Dark    5.0   7.0      1  5.0  7.0     14.8
+14     Metal Claw     Steel    5.0   6.0      1  5.0  6.0     13.4
+15          Ember      Fire    6.0   6.0      1  6.0  6.0     14.4
+16   Feint Attack      Dark    6.0   6.0      1  6.0  6.0     14.4
+17   Poison Sting    Poison    3.0   6.0      1  3.0  6.0     11.4
+18        Present    Normal    3.0  12.0      2  1.5  6.0      9.9
+19         Bubble     Water    8.0  11.0      2  4.0  5.5     11.7
+20    Infestation       Bug    6.0  11.0      2  3.0  5.5     10.7
+21            Hex     Ghost    6.0  11.0      2  3.0  5.5     10.7
+22    Bullet Seed     Grass    5.0  11.0      2  2.5  5.5     10.2
+23    Charge Beam  Electric    5.0  11.0      2  2.5  5.5     10.2
+24      Fire Fang      Fire    7.0   5.0      1  7.0  5.0     14.0
+25     Steel Wing     Steel    7.0   5.0      1  7.0  5.0     14.0
+26      Fire Spin      Fire    9.0  10.0      2  4.5  5.0     11.5
+27   Extrasensory   Psychic    8.0  10.0      2  4.0  5.0     11.0
+28     Rock Throw      Rock    8.0   5.0      1  8.0  5.0     15.0
+29           Acid    Poison    6.0   5.0      1  6.0  5.0     13.0
+30    Dragon Tail    Dragon    9.0  10.0      2  4.5  5.0     11.5
+31          Snarl      Dark    8.0  10.0      2  4.0  5.0     11.0
+32   Frost Breath       Ice    6.0   5.0      1  6.0  5.0     13.0
+33      Ice Shard       Ice    8.0  10.0      2  4.0  5.0     11.0
+34           Peck    Flying    6.0   5.0      1  6.0  5.0     13.0
+35       Low Kick  Fighting    4.0   5.0      1  4.0  5.0     11.0
+36       Astonish     Ghost    5.0   9.0      2  2.5  4.5      8.8
+37      Air Slash    Flying    9.0   9.0      2  4.5  4.5     10.8
+38   Struggle Bug       Bug    9.0   8.0      2  4.5  4.0     10.1
+39   Hidden Power    Normal    9.0   8.0      2  4.5  4.0     10.1
+40      Take Down    Normal    5.0   8.0      2  2.5  4.0      8.1
+41      Waterfall     Water   10.0   8.0      2  5.0  4.0     10.6
+42           Yawn    Normal    NaN  12.0      3  NaN  4.0      NaN
+43    Fury Cutter       Bug    2.0   4.0      1  2.0  4.0      7.6
+44         Splash     Water    NaN  12.0      3  NaN  4.0      NaN
+45     Smack Down      Rock   10.0   8.0      2  5.0  4.0     10.6
+46     Razor Leaf     Grass    8.0   4.0      1  8.0  4.0     13.6
+47      Confusion   Psychic   12.0  12.0      3  4.0  4.0      9.6
+48       Mud Slap    Ground    9.0   8.0      2  4.5  4.0     10.1
+49          Pound    Normal    5.0   4.0      1  5.0  4.0     10.6
+50     Rock Smash  Fighting    9.0   7.0      2  4.5  3.5      9.4
+51   Zen Headbutt   Psychic    8.0   6.0      2  4.0  3.0      8.2
+52       Bug Bite       Bug    3.0   3.0      1  3.0  3.0      7.2
+53      Iron Tail     Steel    9.0   6.0      2  4.5  3.0      8.7
+54      Water Gun     Water    3.0   3.0      1  3.0  3.0      7.2
+55  Dragon Breath    Dragon    4.0   3.0      1  4.0  3.0      8.2
+56           Lick     Ghost    3.0   3.0      1  3.0  3.0      7.2
+57    Volt Switch  Electric   12.0  10.0      4  3.0  2.5      6.5
+58        Scratch    Normal    4.0   2.0      1  4.0  2.0      6.8
+59         Tackle    Normal    3.0   2.0      1  3.0  2.0      5.8
+60           Bite      Dark    4.0   2.0      1  4.0  2.0      6.8
+61            Cut    Normal    3.0   2.0      1  3.0  2.0      5.8
+62      Transform    Normal    NaN   NaN      2  NaN  NaN      NaN
