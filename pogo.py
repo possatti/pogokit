@@ -192,7 +192,7 @@ def show_pvp_pokemon_info(rows, fast_df, charged_df, maximum_movesets=10):
 		print('\nFast moves:')
 		for move in fast_moves.itertuples():
 			stab_str = 'STAB' if move.STAB else ''
-			print(' - [{: <4}] [{: <8}] {: <17} (TURNS={} POWER={:2.0f} ΔE={:2} DPT={:4.1f} EPT={:4.1f} ZEPDOOS={:4.1f})'.format(
+			print(' - [{: <4}] [{: <8}] {: <17} (TURNS={} POWER={:<2.0f} ΔE={:<2} DPT={:<4.1f} EPT={:<4.1f} ZEPDOOS={:<4.1f})'.format(
 				stab_str, move.type_name, move.name, move.durationTurns, move.power,
 				move.energyDelta, move.R_DPT, move.EPT, move.R_ZEPDOOS))
 
@@ -205,7 +205,7 @@ def show_pvp_pokemon_info(rows, fast_df, charged_df, maximum_movesets=10):
 		print('\nCharged moves:')
 		for move in charged_moves.itertuples():
 			stab_str = 'STAB' if move.STAB else ''
-			print(' - [{: <4}] [{: <8}] {: <17} (POWER={:3.0f} ΔE={} DP100E={})'.format(
+			print(' - [{: <4}] [{: <8}] {: <17} (POWER={:<3.0f} ΔE={:<3} DP100E={:<3})'.format(
 				stab_str, move.type_name, move.name, move.power, move.energyDelta, move.R_DP100E))
 
 		movesets = []
@@ -250,9 +250,12 @@ def interactive_pvp_mon_search(args):
 			rows = pok_df.loc[pok_df['dex']==dex_number]
 			show_pvp_pokemon_info(rows, fast_df, charged_df)
 		else:
+			complete_rows = pok_df.loc[pok_df['complete_name']==query.title()]
 			rows = pok_df.loc[pok_df['name']==query.title()]
 			if len(rows) > 0:
 				show_pvp_pokemon_info(rows, fast_df, charged_df)
+			elif len(complete_rows) > 0:
+				show_pvp_pokemon_info(complete_rows, fast_df, charged_df)
 			elif query == 'q' or query == 'quit' or raw_query == '':
 				do_quit = True
 			elif query == '':
@@ -261,7 +264,7 @@ def interactive_pvp_mon_search(args):
 				continue
 			else:
 				if FUZZY_ENABLED:
-					possibilities = fw.process.extract(query, pok_df['name'])
+					possibilities = fw.process.extract(query, pok_df['complete_name'])
 					possible_names = set(p[0] for p in possibilities)
 					print('Couldn\'t find `{}`. Maybe you meant: {}'.format(query, ', '.join(possible_names)))
 				else:
