@@ -1,0 +1,135 @@
+                         name type_name  power   ΔE  DP100E       DPE
+0                Hydro Cannon     Water   90.0  -40     225  2.250000
+1                Origin Pulse     Water  130.0  -60     216  2.166667
+2                  Hydro Pump     Water  130.0  -75     173  1.733333
+3          Weather Ball Water     Water   60.0  -35     171  1.714286
+4                        Surf     Water   65.0  -40     162  1.625000
+5    Water Gun Fast Blastoise     Water    6.0    4     150  1.500000
+6                   Aqua Tail     Water   50.0  -35     142  1.428571
+7                       Scald     Water   80.0  -60     133  1.333333
+8                       Brine     Water   60.0  -50     120  1.200000
+9                 Water Pulse     Water   70.0  -60     116  1.166667
+10                Bubble Beam     Water   45.0  -40     112  1.125000
+11       Hydro Pump Blastoise     Water   90.0  -80     112  1.125000
+12                   Aqua Jet     Water   45.0  -45     100  1.000000
+13            Scald Blastoise     Water   50.0  -80      62  0.625000
+14                Doom Desire     Steel   80.0  -35     228  2.285714
+15                Meteor Mash     Steel  100.0  -50     200  2.000000
+16               Flash Cannon     Steel  110.0  -65     169  1.692308
+17                Magnet Bomb     Steel   70.0  -45     155  1.555556
+18                 Heavy Slam     Steel   70.0  -50     140  1.400000
+19                  Gyro Ball     Steel   80.0  -60     133  1.333333
+20                  Iron Head     Steel   60.0  -50     120  1.200000
+21                 Stone Edge      Rock  100.0  -55     181  1.818182
+22                 Rock Slide      Rock   80.0  -45     177  1.777778
+23          Weather Ball Rock      Rock   60.0  -35     171  1.714286
+24              Ancient Power      Rock   70.0  -45     155  1.555556
+25                  Power Gem      Rock   80.0  -60     133  1.333333
+26                 Rock Blast      Rock   50.0  -40     125  1.250000
+27                  Rock Tomb      Rock   70.0  -60     116  1.166667
+28                Futuresight   Psychic  120.0  -65     184  1.846154
+29                  Psystrike   Psychic  100.0  -55     181  1.818182
+30               Psycho Boost   Psychic   70.0  -40     175  1.750000
+31                   Psyshock   Psychic   65.0  -45     144  1.444444
+32                    Psychic   Psychic  100.0  -70     142  1.428571
+33                    Psybeam   Psychic   70.0  -60     116  1.166667
+34                Mirror Coat   Psychic   60.0  -55     109  1.090909
+35                Heart Stamp   Psychic   40.0  -40     100  1.000000
+36                  Gunk Shot    Poison  130.0  -75     173  1.733333
+37                Sludge Wave    Poison  110.0  -65     169  1.692308
+38                Sludge Bomb    Poison   80.0  -50     160  1.600000
+39                     Sludge    Poison   50.0  -40     125  1.250000
+40                Poison Fang    Poison   40.0  -35     114  1.142857
+41               Cross Poison    Poison   40.0  -35     114  1.142857
+42                 Hyper Beam    Normal  150.0  -80     187  1.875000
+43                Last Resort    Normal   90.0  -55     163  1.636364
+44                 Hyper Fang    Normal   80.0  -50     160  1.600000
+45                  Body Slam    Normal   50.0  -35     142  1.428571
+46                       Rest    Normal   50.0  -35     142  1.428571
+47                      Stomp    Normal   55.0  -40     137  1.375000
+48                       Wrap    Normal   60.0  -45     133  1.333333
+49                Horn Attack    Normal   40.0  -35     114  1.142857
+50                      Swift    Normal   60.0  -55     109  1.090909
+51                  Vice Grip    Normal   40.0  -40     100  1.000000
+52                 Wrap Green    Normal   25.0  -45      55  0.555556
+53                  Wrap Pink    Normal   25.0  -45      55  0.555556
+54                   Struggle    Normal   35.0 -100      35  0.350000
+55                  Avalanche       Ice   90.0  -45     200  2.000000
+56                   Blizzard       Ice  130.0  -75     173  1.733333
+57           Weather Ball Ice       Ice   60.0  -35     171  1.714286
+58                   Ice Beam       Ice   90.0  -55     163  1.636364
+59                   Icy Wind       Ice   60.0  -45     133  1.333333
+60                Aurora Beam       Ice   80.0  -60     133  1.333333
+61                  Ice Punch       Ice   50.0  -40     125  1.250000
+62           Precipice Blades    Ground  130.0  -60     216  2.166667
+63                 Earthquake    Ground  120.0  -65     184  1.846154
+64                  Drill Run    Ground   80.0  -55     145  1.454545
+65                   Mud Bomb    Ground   55.0  -40     137  1.375000
+66                   Bulldoze    Ground   80.0  -60     133  1.333333
+67                  Sand Tomb    Ground   80.0  -60     133  1.333333
+68                        Dig    Ground  100.0  -80     125  1.250000
+69                  Bone Club    Ground   40.0  -35     114  1.142857
+70               Frenzy Plant     Grass  100.0  -45     222  2.222222
+71                 Leaf Blade     Grass   70.0  -35     200  2.000000
+72                 Solar Beam     Grass  150.0  -80     187  1.875000
+73                 Power Whip     Grass   90.0  -50     180  1.800000
+74                 Grass Knot     Grass   90.0  -50     180  1.800000
+75             Petal Blizzard     Grass  110.0  -65     169  1.692308
+76                Energy Ball     Grass   90.0  -60     150  1.500000
+77                  Seed Bomb     Grass   55.0  -40     137  1.375000
+78                 Giga Drain     Grass   50.0  -80      62  0.625000
+79                 Mega Drain     Grass   25.0  -55      45  0.454545
+80                Shadow Ball     Ghost  100.0  -55     181  1.818182
+81               Ominous Wind     Ghost   50.0  -40     125  1.250000
+82               Shadow Punch     Ghost   40.0  -35     114  1.142857
+83               Shadow Sneak     Ghost   50.0  -45     111  1.111111
+84                Night Shade     Ghost   60.0  -55     109  1.090909
+85                 Sky Attack    Flying   80.0  -45     177  1.777778
+86                  Hurricane    Flying  110.0  -65     169  1.692308
+87                 Brave Bird    Flying   90.0  -55     163  1.636364
+88                 Drill Peck    Flying   60.0  -40     150  1.500000
+89                 Aerial Ace    Flying   55.0  -45     122  1.222222
+90                 Air Cutter    Flying   60.0  -55     109  1.090909
+91                 Blast Burn      Fire  110.0  -50     220  2.200000
+92                   Overheat      Fire  150.0  -80     187  1.875000
+93                 Fire Blast      Fire  140.0  -80     175  1.750000
+94          Weather Ball Fire      Fire   60.0  -35     171  1.714286
+95               Flamethrower      Fire   70.0  -50     140  1.400000
+96               Flame Charge      Fire   70.0  -50     140  1.400000
+97                 Fire Punch      Fire   55.0  -40     137  1.375000
+98                Flame Burst      Fire   70.0  -55     127  1.272727
+99                  Heat Wave      Fire   95.0  -75     126  1.266667
+100               Flame Wheel      Fire   60.0  -55     109  1.090909
+101               Focus Blast  Fighting  150.0  -75     200  2.000000
+102             Dynamic Punch  Fighting   90.0  -50     180  1.800000
+103              Close Combat  Fighting  100.0  -60     166  1.666667
+104                Cross Chop  Fighting   50.0  -35     142  1.428571
+105                Submission  Fighting   60.0  -50     120  1.200000
+106               Brick Break  Fighting   40.0  -35     114  1.142857
+107                 Low Sweep  Fighting   40.0  -40     100  1.000000
+108                 Moonblast     Fairy  130.0  -70     185  1.857143
+109           Disarming Voice     Fairy   70.0  -45     155  1.555556
+110                Play Rough     Fairy   90.0  -60     150  1.500000
+111            Dazzling Gleam     Fairy  100.0  -70     142  1.428571
+112             Draining Kiss     Fairy   60.0  -55     109  1.090909
+113                Zap Cannon  Electric  150.0  -80     187  1.875000
+114               Wild Charge  Electric   90.0  -50     180  1.800000
+115               Thunderbolt  Electric   80.0  -45     177  1.777778
+116                   Thunder  Electric  100.0  -60     166  1.666667
+117                 Discharge  Electric   65.0  -45     144  1.444444
+118             Thunder Punch  Electric   45.0  -35     128  1.285714
+119          Parabolic Charge  Electric   25.0  -55      45  0.454545
+120              Draco Meteor    Dragon  150.0  -75     200  2.000000
+121                   Outrage    Dragon  110.0  -60     183  1.833333
+122              Dragon Pulse    Dragon   90.0  -60     150  1.500000
+123               Dragon Claw    Dragon   50.0  -35     142  1.428571
+124                   Twister    Dragon   45.0  -45     100  1.000000
+125                Dark Pulse      Dark   80.0  -50     160  1.600000
+126                    Crunch      Dark   70.0  -45     155  1.555556
+127                 Foul Play      Dark   70.0  -45     155  1.555556
+128               Night Slash      Dark   50.0  -40     125  1.250000
+129                  Megahorn       Bug   90.0  -55     163  1.636364
+130               Silver Wind       Bug   70.0  -45     155  1.555556
+131                  Bug Buzz       Bug   90.0  -60     150  1.500000
+132               Signal Beam       Bug   75.0  -55     136  1.363636
+133                 X Scissor       Bug   45.0  -35     128  1.285714
