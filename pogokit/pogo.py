@@ -2,9 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function, division
-from subprocess import call
 
-import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import argparse
@@ -14,12 +12,14 @@ import sys
 import os
 import re
 
+from pogokit import data
+
 try:
 	import fuzzywuzzy as fw
 	from fuzzywuzzy import fuzz
 	from fuzzywuzzy import process as fwprocess
 	FUZZY_ENABLED = True
-except:
+except ImportError:
 	FUZZY_ENABLED = False
 
 """
@@ -277,28 +277,37 @@ def parse_args():
 	subparsers.required = True
 
 	common_parser = argparse.ArgumentParser(add_help=False)
-	common_parser.add_argument('--game-master', default=os.path.join(os.path.dirname(__file__), 'data', 'GAME_MASTER.json'))
+	common_parser.add_argument('--data-dir', default=data.get_data_dir())
+	common_parser.add_argument('--game-master')
 
 	best_moves_parser = subparsers.add_parser('best_pvp_moves', parents=[common_parser], help='Print best moves.')
-	best_moves_parser.add_argument('--save-fast-dpt', default=os.path.join(os.path.dirname(__file__), 'data', 'pvp_fast_moves_by_dpt.txt'))
-	best_moves_parser.add_argument('--save-fast-ept', default=os.path.join(os.path.dirname(__file__), 'data', 'pvp_fast_moves_by_ept.txt'))
-	best_moves_parser.add_argument('--save-fast-zepdoos', default=os.path.join(os.path.dirname(__file__), 'data', 'pvp_fast_moves_by_zepdoos.txt'))
-	best_moves_parser.add_argument('--save-fast-type-zepdoos', default=os.path.join(os.path.dirname(__file__), 'data', 'pvp_fast_moves_by_type_and_zepdoos.txt'))
-	best_moves_parser.add_argument('--save-charged-dpe', default=os.path.join(os.path.dirname(__file__), 'data', 'pvp_charged_moves_by_dpe.txt'))
-	best_moves_parser.add_argument('--save-charged-type-dpe', default=os.path.join(os.path.dirname(__file__), 'data', 'pvp_charged_moves_by_type_and_dpe.txt'))
+	best_moves_parser.add_argument('--save-fast-dpt', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_fast_moves_by_dpt.txt'))
+	best_moves_parser.add_argument('--save-fast-ept', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_fast_moves_by_ept.txt'))
+	best_moves_parser.add_argument('--save-fast-zepdoos', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_fast_moves_by_zepdoos.txt'))
+	best_moves_parser.add_argument('--save-fast-type-zepdoos', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_fast_moves_by_type_and_zepdoos.txt'))
+	best_moves_parser.add_argument('--save-charged-dpe', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_charged_moves_by_dpe.txt'))
+	best_moves_parser.add_argument('--save-charged-type-dpe', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_charged_moves_by_type_and_dpe.txt'))
 
-	pvp_mon_parser = subparsers.add_parser('pvp_mon', parents=[common_parser], help='Build all the input files.')
+	pvp_mon_parser = subparsers.add_parser('pvp_mon', parents=[common_parser], help='Show pokemon info.')
 	pvp_mon_parser.add_argument('--query')
 
+	download_data_parser = subparsers.add_parser('download', parents=[common_parser], help='Download essential data.')
+	download_data_parser.add_argument('--latest', action='store_true', help='Download latest files (e.g. latest game master)')
+
 	args = parser.parse_args()
-	# if not args.command:
-	# 	parser.print_help(file=sys.stderr)
+	if args.game_master is None:
+		args.game_master = os.path.join(args.data_dir, 'GAME_MASTER.json')
 	return args
 
-
-if __name__ == '__main__':
+def main():
 	args = parse_args()
 	if args.command == 'best_pvp_moves':
 		best_pvp_moves(args)
 	elif args.command == 'pvp_mon':
 		interactive_pvp_mon_search(args)
+	elif args.command == 'download':
+		data.download_data(args.data_dir, latest=args.latest)
+
+
+if __name__ == '__main__':
+	main()

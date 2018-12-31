@@ -1,2 +1,5 @@
+*.egg-info/
+__pycache__/
+
 GAME_MASTER.json
 gp_legacy_page.html
