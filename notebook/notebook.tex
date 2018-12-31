@@ -1,0 +1,94 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+\begin{document}
+
+\title{PoGo Kit}
+\author{@possatti}
+
+\maketitle
+
+\begin{abstract}
+This is a draft of some Pokémon GO formulas.
+\end{abstract}
+
+\section{Calculating TDO}
+
+Real damage formula:
+\begin{equation}
+  \label{real_damage_formula}
+  RealDamage = Floor(\frac{1}{2} * Power * \frac{Atk}{Def} * Multipliers) + 1
+\end{equation}
+
+Simpified damage formula:
+\begin{equation}
+  \label{simpified_damage_formula}
+  Damage = \frac{1}{2} * Power * \frac{Atk}{Def} * Multipliers
+\end{equation}
+
+Auxiliary:
+\begin{equation}
+  \label{PPT}
+  FastPPT = FastPower \div Turns
+\end{equation}
+\begin{equation}
+  \label{EPT}
+  FastEPT = EnergyDelta \div Turns
+\end{equation}
+\begin{equation}
+  \label{PPE}
+  ChargePPE = ChargePower \div EnergyDelta
+\end{equation}
+\begin{equation}
+    HP = Sta * CPM_{lvl}
+\end{equation}
+
+Damage per Turn (DPT):
+\begin{equation}
+  FastDPT = \frac{1}{2} * FastPPT * \frac{Atk}{Def} * Multipliers
+\end{equation}
+\begin{equation}
+  ChargeDPT = \frac{1}{2} * ChargePPE * FastEPT * \frac{Atk}{Def} * Multipliers
+\end{equation}
+\begin{equation}
+  \begin{aligned}
+    DPT = FastDPT + ChargeDPT \\
+    DPT = \frac{FastPPT * Atk}{2Def} + \frac{ChargePPE * FastEPT * Atk}{2Def} \\
+    DPT = (FastPPT + ChargePPE * FastEPT) * \frac{Atk}{2Def} \\
+  \end{aligned}
+\end{equation}
+
+The Pokémon stays alive for some turns (TotalTurns):
+\begin{equation}
+  \begin{aligned}
+    TotalTurns_A = HP_A \div DPT_B \\
+    TotalTurns_A = HP_A \div (FastPPT_B + FastEPT_B * ChargePPE_B) * \frac{Atk_B}{2Def_A} \\
+    TotalTurns_A = \frac{HP_A}{FastPPT_B + FastEPT_B * ChargePPE_B} * \frac{2Def_A}{Atk_B} \\
+  \end{aligned}
+\end{equation}
+
+% Why we measure moveset pairs, instead of moveset triples? Because the player will always prefer the one with highest ChargePPE, unless type advantage changes things. Knowing what types will come into play is not possible, then let's just forget about the triples.
+
+How to calculate TDO:
+\begin{equation}
+  \begin{aligned}
+    TDO = DPT_A * TotalTurns \\ \\
+    TDO = (FastPPT_A + FastEPT_A * ChargePPE_A) * \frac{Atk_A}{2Def_B} \\
+      * \frac{HP_A}{FastPPT_B + FastEPT_B * ChargePPE_B} * \frac{2Def_A}{Atk_B} \\ \\
+    TDO = (FastPPT_A + FastEPT_A * ChargePPE_A) * Atk_A * HP_A * Def_A \\
+      * \frac{1}{(FastPPT_B + FastEPT_B * ChargePPE_B) * Atk_B * Def_B} \\ \\
+    TDO \propto (FastPPT_A + FastEPT_A * ChargePPE_A) * Atk_A * HP_A * Def_A
+  \end{aligned}
+\end{equation}
+
+% \subsection{Subsection Heading Here}
+
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=3.0in]{myfigure}
+%     \caption{Simulation Results}
+%     \label{simulationfigure}
+% \end{figure}
+
+\end{document}
