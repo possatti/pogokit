@@ -179,10 +179,13 @@ def show_pvp_pokemon_info(rows, fast_df, charged_df, maximum_movesets=10):
             complete_type += '-' + type_from_gm_template_id(row.type2)
         max_cp = formulas.calc_cp(row.attack+15, row.defense+15, row.stamina+15, lvl=40)
         max_hp = formulas.calc_hp(row.stamina+15, 40)
+        league_d = formulas.find_league_pokemon(row.attack+15, row.defense+15, row.stamina+15)
         print('\n# {:0>3} {} ({})'.format(row.dex, row.complete_name, complete_type))
-        print('Attributes:  ATK={}  DEF={}  STA={}'.format(row.attack, row.defense, row.stamina))
+        print('Base attributes:  ATK={}  DEF={}  STA={}'.format(row.attack, row.defense, row.stamina))
         print('Maximum CP:  {}'.format(max_cp))
         print('Maximum HP:  {}'.format(max_hp))
+        print('Perfect IV league levels:  GL={}  UL={}  ML={}'.format(league_d['GL']['levels'][0], league_d['UL']['levels'][0], league_d['ML']['levels'][0]))
+        print('Perfect IV league CPs:     GL={}  UL={}  ML={}'.format(league_d['GL']['cps'][0], league_d['UL']['cps'][0], league_d['ML']['cps'][0]))
 
         fast_moves = fast_df.loc[fast_df['uniqueId'].isin(row.quickMoves)].copy()
         fast_moves['STAB'] = np.logical_or(fast_moves['type']==row.type, fast_moves['type']==row.type2)
@@ -218,16 +221,30 @@ def show_pvp_pokemon_info(rows, fast_df, charged_df, maximum_movesets=10):
                     'fast_name': fast['name'],
                     'charged_name': charged['name'],
                     'PPT': fast['R_PPT']+charged['R_PPE']*fast['EPT'],
-                    'TDO': formulas.calc_pokemon_moveset_tdo_ref(
-                        row.attack+15, row.defense+15, max_hp,
-                        fast['PPT'], fast['EPT'], charged['PPE'],
-                        fast_mult=fast['STAB_M'], charge_mult=charged['STAB_M']),
+                    # 'TDO': formulas.calc_pokemon_moveset_tdo_ref(
+                    #     row.attack+15, row.defense+15, max_hp,
+                    #     fast['PPT'], fast['EPT'], charged['PPE'],
+                    #     fast_mult=fast['STAB_M'], charge_mult=charged['STAB_M']),
                 })
+                for league in league_d:
+                    lvl = league_d[league]['levels'][0]
+                    cpm = formulas.CP_MULTIPLIERS[lvl]
+                    movesets[-1]['TDO_'+league] = formulas.calc_pokemon_moveset_tdo_ref(
+                        (row.attack+15)*cpm, (row.defense+15)*cpm, formulas.calc_hp((row.stamina+15), lvl),
+                        fast['PPT'], fast['EPT'], charged['PPE'],
+                        fast_mult=fast['STAB_M'], charge_mult=charged['STAB_M']
+                    )
         movesets = pd.DataFrame(movesets)
         movesets = movesets.sort_values(by='PPT', ascending=False)
         print('\nBest movesets:')
         for moveset in movesets.iloc[:maximum_movesets].itertuples():
-            print(' - {m.fast_name: >17} - {m.charged_name: <17} (PPT={m.PPT:6.3f}, TDO={m.TDO:7.3f})'.format(m=moveset))
+            # print(' - {m.fast_name: >17} - {m.charged_name: <17} (PPT={m.PPT:6.3f}, TDO={m.TDO:7.3f})'.format(m=moveset))
+            print((' - {m.fast_name: >17} - {m.charged_name: <17}'
+                ' (PPT={m.PPT:6.3f}'
+                ', TDO_GL={m.TDO_GL:6.2f}'
+                ', TDO_UL={m.TDO_UL:6.2f}'
+                ', TDO_ML={m.TDO_ML:6.2f})'
+            ).format(m=moveset))
         if len(movesets) > maximum_movesets:
             print(' - {} others'.format(len(movesets) - maximum_movesets))
         print()
