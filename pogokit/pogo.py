@@ -38,12 +38,12 @@ zepdoos defines, it makes much sense.
 STAB_MULTIPLIER = 1.2
 
 FAST_MOVE_COLUMN_ORDER_PRE = ['uniqueId', 'name', 'type', 'power', 'energyDelta', 'durationTurns']
-FAST_MOVE_COLUMN_ORDER = ['uniqueId', 'name', 'type', 'power', 'energyDelta', 'durationTurns', 'DPT', 'EPT', 'ZEPDOOS']
-FAST_MOVE_VISIBLE_COLUMNS = ['name', 'type_name', 'power', 'energyDelta', 'durationTurns', 'DPT', 'EPT', 'ZEPDOOS']
+FAST_MOVE_COLUMN_ORDER = ['uniqueId', 'name', 'type', 'power', 'energyDelta', 'durationTurns', 'PPT', 'EPT', 'ZEPDOOS']
+FAST_MOVE_VISIBLE_COLUMNS = ['name', 'type_name', 'power', 'energyDelta', 'durationTurns', 'PPT', 'EPT', 'ZEPDOOS']
 
 CHARGED_MOVE_COLUMN_ORDER_PRE = ['uniqueId', 'name', 'type', 'power', 'energyDelta']
-CHARGED_MOVE_COLUMN_ORDER = ['uniqueId', 'name', 'type', 'power', 'energyDelta', 'DP100E', 'DPE']
-CHARGED_MOVE_VISIBLE_COLUMNS = ['name', 'type_name', 'power', 'energyDelta', 'DP100E', 'DPE']
+CHARGED_MOVE_COLUMN_ORDER = ['uniqueId', 'name', 'type', 'power', 'energyDelta', 'PP100E', 'PPE']
+CHARGED_MOVE_VISIBLE_COLUMNS = ['name', 'type_name', 'power', 'energyDelta', 'PP100E', 'PPE']
 
 POKEMON_COLUMN_ORDER = ['dex', 'pokemonId', 'complete_name', 'name', 'type', 'type2', 'quickMoves', 'cinematicMoves', 'stamina', 'attack', 'defense']
 
@@ -111,16 +111,16 @@ def process_game_master(game_master_path):
 def calc_fast_attack_stats(fast_df, zepdoos_c=formulas.ZEPDOOS_C):
     # FIXME: I shouldn't be doing it inplace as well.
     fast_df['type_name'] = fast_df['type'].apply(type_from_gm_template_id)
-    fast_df['DPT'] = fast_df['power'] / fast_df['durationTurns']
+    fast_df['PPT'] = fast_df['power'] / fast_df['durationTurns']
     fast_df['EPT'] = fast_df['energyDelta'] / fast_df['durationTurns']
-    fast_df['ZEPDOOS'] = formulas.calc_zepdoos_score(fast_df['DPT'], fast_df['EPT'], zepdoos_c=zepdoos_c)
+    fast_df['ZEPDOOS'] = formulas.calc_zepdoos_score(fast_df['PPT'], fast_df['EPT'], zepdoos_c=zepdoos_c)
     return fast_df
 
 def calc_charged_attack_stats(charged_df):
     # FIXME: I shouldn't be doing it inplace as well.
     charged_df['type_name'] = charged_df['type'].apply(type_from_gm_template_id)
-    charged_df['DP100E'] = np.floor(charged_df['power'] / np.abs(charged_df['energyDelta']) * 100).astype(int)
-    charged_df['DPE'] = charged_df['power'] / np.abs(charged_df['energyDelta'])
+    charged_df['PP100E'] = np.floor(charged_df['power'] / np.abs(charged_df['energyDelta']) * 100).astype(int)
+    charged_df['PPE'] = charged_df['power'] / np.abs(charged_df['energyDelta'])
     return charged_df
 
 def best_pvp_moves(args):
@@ -128,12 +128,12 @@ def best_pvp_moves(args):
     fast_df = calc_fast_attack_stats(fast_df)
     charged_df = calc_charged_attack_stats(charged_df)
 
-    print('\nBest DPT moves:')
-    best_fast_dpt = fast_df.sort_values(by=['DPT', 'ZEPDOOS'], ascending=False)
+    print('\nBest PPT moves:')
+    best_fast_ppt = fast_df.sort_values(by=['PPT', 'ZEPDOOS'], ascending=False)
     with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-        table = best_fast_dpt[FAST_MOVE_VISIBLE_COLUMNS].rename(columns=SHORTER_COLUMN_NAMES).reset_index(drop=True)
+        table = best_fast_ppt[FAST_MOVE_VISIBLE_COLUMNS].rename(columns=SHORTER_COLUMN_NAMES).reset_index(drop=True)
         print(table.head(10))
-        with open(args.save_fast_dpt, 'w') as f:
+        with open(args.save_fast_ppt, 'w') as f:
             print(table, file=f)
 
     print('\nBest EPT moves:')
@@ -158,18 +158,18 @@ def best_pvp_moves(args):
         with open(args.save_fast_type_zepdoos, 'w') as f:
             print(table, file=f)
 
-    print('\nBest charge moves for PvP (DPE):')
-    best_charged_dpe = charged_df.sort_values(by='DPE', ascending=False)
+    print('\nBest charge moves for PvP (PPE):')
+    best_charged_ppe = charged_df.sort_values(by='PPE', ascending=False)
     with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-        table = best_charged_dpe[CHARGED_MOVE_VISIBLE_COLUMNS].rename(columns=SHORTER_COLUMN_NAMES).reset_index(drop=True)
+        table = best_charged_ppe[CHARGED_MOVE_VISIBLE_COLUMNS].rename(columns=SHORTER_COLUMN_NAMES).reset_index(drop=True)
         print(table.head(30))
-        with open(args.save_charged_dpe, 'w') as f:
+        with open(args.save_charged_ppe, 'w') as f:
             print(table, file=f)
-    best_charged_type_dpe = charged_df.sort_values(by=['type', 'DPE'], ascending=False)
+    best_charged_type_ppe = charged_df.sort_values(by=['type', 'PPE'], ascending=False)
     with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-        table = best_charged_type_dpe[CHARGED_MOVE_VISIBLE_COLUMNS].rename(columns=SHORTER_COLUMN_NAMES).reset_index(drop=True)
+        table = best_charged_type_ppe[CHARGED_MOVE_VISIBLE_COLUMNS].rename(columns=SHORTER_COLUMN_NAMES).reset_index(drop=True)
         # print(table.head(30))
-        with open(args.save_charged_type_dpe, 'w') as f:
+        with open(args.save_charged_type_ppe, 'w') as f:
             print(table, file=f)
 
 def show_pvp_pokemon_info(rows, fast_df, charged_df, maximum_movesets=10):
@@ -178,34 +178,36 @@ def show_pvp_pokemon_info(rows, fast_df, charged_df, maximum_movesets=10):
         if row.type2:
             complete_type += '-' + type_from_gm_template_id(row.type2)
         max_cp = formulas.calc_cp(row.attack+15, row.defense+15, row.stamina+15, lvl=40)
+        max_hp = formulas.calc_hp(row.stamina+15, 40)
         print('\n# {:0>3} {} ({})'.format(row.dex, row.complete_name, complete_type))
         print('Attributes:  ATK={}  DEF={}  STA={}'.format(row.attack, row.defense, row.stamina))
         print('Maximum CP:  {}'.format(max_cp))
+        print('Maximum HP:  {}'.format(max_hp))
 
         fast_moves = fast_df.loc[fast_df['uniqueId'].isin(row.quickMoves)].copy()
         fast_moves['STAB'] = np.logical_or(fast_moves['type']==row.type, fast_moves['type']==row.type2)
         fast_moves['STAB_M'] = np.where(fast_moves['STAB'], STAB_MULTIPLIER, 1)
-        fast_moves['R_DPT'] = fast_moves['DPT'] * fast_moves['STAB_M']
-        fast_moves['R_ZEPDOOS'] = formulas.calc_zepdoos_score(fast_moves['R_DPT'], fast_moves['EPT'])
+        fast_moves['R_PPT'] = fast_moves['PPT'] * fast_moves['STAB_M']
+        fast_moves['R_ZEPDOOS'] = formulas.calc_zepdoos_score(fast_moves['R_PPT'], fast_moves['EPT'])
         fast_moves = fast_moves.sort_values(by='R_ZEPDOOS', ascending=False, inplace=False)
         print('\nFast moves:')
         for move in fast_moves.itertuples():
             stab_str = 'STAB' if move.STAB else ''
-            print(' - [{: <4}] [{: <8}] {: <17} (TURNS={} POWER={:<2.0f} ΔE={:<2} DPT={:<4.1f} EPT={:<4.1f} ZEPDOOS={:<4.1f})'.format(
+            print(' - [{: <4}] [{: <8}] {: <17} (TURNS={} POWER={:<2.0f} ΔE={:<2} PPT={:<4.1f} EPT={:<4.1f} ZEPDOOS={:<4.1f})'.format(
                 stab_str, move.type_name, move.name, move.durationTurns, move.power,
-                move.energyDelta, move.R_DPT, move.EPT, move.R_ZEPDOOS))
+                move.energyDelta, move.R_PPT, move.EPT, move.R_ZEPDOOS))
 
         charged_moves = charged_df.loc[charged_df['uniqueId'].isin(row.cinematicMoves)].copy()
         charged_moves['STAB'] = np.logical_or(charged_moves['type']==row.type, charged_moves['type']==row.type2)
         charged_moves['STAB_M'] = np.where(charged_moves['STAB'], STAB_MULTIPLIER, 1)
-        charged_moves['R_DPE'] = charged_moves['power'] * charged_moves['STAB_M'] / np.abs(charged_moves['energyDelta'])
-        charged_moves['R_DP100E'] = np.floor(charged_moves['R_DPE'] * 100).astype(int)
-        charged_moves = charged_moves.sort_values(by='R_DPE', ascending=False, inplace=False)
+        charged_moves['R_PPE'] = charged_moves['power'] * charged_moves['STAB_M'] / np.abs(charged_moves['energyDelta'])
+        charged_moves['R_PP100E'] = np.floor(charged_moves['R_PPE'] * 100).astype(int)
+        charged_moves = charged_moves.sort_values(by='R_PPE', ascending=False, inplace=False)
         print('\nCharged moves:')
         for move in charged_moves.itertuples():
             stab_str = 'STAB' if move.STAB else ''
-            print(' - [{: <4}] [{: <8}] {: <17} (POWER={:<3.0f} ΔE={:<3} DP100E={:<3})'.format(
-                stab_str, move.type_name, move.name, move.power, move.energyDelta, move.R_DP100E))
+            print(' - [{: <4}] [{: <8}] {: <17} (POWER={:<3.0f} ΔE={:<3} PP100E={:<3})'.format(
+                stab_str, move.type_name, move.name, move.power, move.energyDelta, move.R_PP100E))
 
         movesets = []
         for fast_move in row.quickMoves:
@@ -215,13 +217,17 @@ def show_pvp_pokemon_info(rows, fast_df, charged_df, maximum_movesets=10):
                 movesets.append({
                     'fast_name': fast['name'],
                     'charged_name': charged['name'],
-                    'DPT': fast['R_DPT']+charged['R_DPE']*fast['EPT'],
+                    'PPT': fast['R_PPT']+charged['R_PPE']*fast['EPT'],
+                    'TDO': formulas.calc_pokemon_moveset_tdo_ref(
+                        row.attack+15, row.defense+15, max_hp,
+                        fast['PPT'], fast['EPT'], charged['PPE'],
+                        fast_mult=fast['STAB_M'], charge_mult=charged['STAB_M']),
                 })
         movesets = pd.DataFrame(movesets)
-        movesets = movesets.sort_values(by='DPT', ascending=False)
+        movesets = movesets.sort_values(by='PPT', ascending=False)
         print('\nBest movesets:')
         for moveset in movesets.iloc[:maximum_movesets].itertuples():
-            print(' - {m.fast_name: >17} - {m.charged_name: <17} (DPT={m.DPT:.3f})'.format(m=moveset))
+            print(' - {m.fast_name: >17} - {m.charged_name: <17} (PPT={m.PPT:6.3f}, TDO={m.TDO:7.3f})'.format(m=moveset))
         if len(movesets) > maximum_movesets:
             print(' - {} others'.format(len(movesets) - maximum_movesets))
         print()
@@ -285,12 +291,12 @@ def parse_args():
     common_parser.add_argument('--game-master')
 
     best_moves_parser = subparsers.add_parser('best_pvp_moves', parents=[common_parser], help='Print best moves.')
-    best_moves_parser.add_argument('--save-fast-dpt', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_fast_moves_by_dpt.txt'))
+    best_moves_parser.add_argument('--save-fast-ppt', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_fast_moves_by_ppt.txt'))
     best_moves_parser.add_argument('--save-fast-ept', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_fast_moves_by_ept.txt'))
     best_moves_parser.add_argument('--save-fast-zepdoos', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_fast_moves_by_zepdoos.txt'))
     best_moves_parser.add_argument('--save-fast-type-zepdoos', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_fast_moves_by_type_and_zepdoos.txt'))
-    best_moves_parser.add_argument('--save-charged-dpe', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_charged_moves_by_dpe.txt'))
-    best_moves_parser.add_argument('--save-charged-type-dpe', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_charged_moves_by_type_and_dpe.txt'))
+    best_moves_parser.add_argument('--save-charged-ppe', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_charged_moves_by_ppe.txt'))
+    best_moves_parser.add_argument('--save-charged-type-ppe', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_charged_moves_by_type_and_ppe.txt'))
     best_moves_parser.set_defaults(func=best_pvp_moves)
 
     pvp_mon_parser = subparsers.add_parser('pokemon', aliases=['pok', 'mon'], parents=[common_parser], help='Show pokemon info.')
@@ -307,6 +313,7 @@ def parse_args():
     return args
 
 def main():
+    print('PoGo Kit (@possatti)')
     args = parse_args()
     args.func(args)
 

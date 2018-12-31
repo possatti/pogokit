@@ -99,5 +99,28 @@ def calc_cp(attack, defense, stamina, lvl=None, cpm=None):
     return np.floor((attack * (defense**0.5) * (stamina**0.5) * cpm**2) / 10).astype(int)
 
 ZEPDOOS_C = 1.4
-def calc_zepdoos_score(dpt, ept, zepdoos_c=ZEPDOOS_C):
-    return dpt + zepdoos_c * ept
+def calc_zepdoos_score(ppt, ept, zepdoos_c=ZEPDOOS_C):
+    return ppt + zepdoos_c * ept
+
+def calc_hp(stamina, lvl):
+    return np.floor(stamina * CP_MULTIPLIERS[lvl])
+
+
+def calc_pokemon_moveset_tdo(atk_a, def_a, hp_a, fast_ppt_a, fast_ept_a, charge_ppe_a,
+    atk_b, def_b, fast_ppt_b, fast_ept_b, charge_ppe_b,
+    fast_mult_a=1, charge_mult_a=1, fast_mult_b=1, charge_mult_b=1):
+    """Calculate a Pokémon's TDO."""
+    return ((fast_ppt_a*fast_mult_a + fast_ept_a*charge_ppe_a*charge_mult_a) * atk_a * def_a * hp_a) / \
+        ((fast_ppt_b*fast_mult_b + fast_ept_b*charge_ppe_b*fast_mult_b) * atk_b * def_b)
+
+def calc_pokemon_moveset_tdo_ref(atk, def_, hp, fast_ppt, fast_ept, charge_ppe, fast_mult=1, charge_mult=1):
+    """Calculate a Pokémon's TDO against a reference enemy."""
+    atk_b, def_b = 200, 150
+    fast_ppt_b, fast_ept_b, charge_ppe_b = 5, 5, 1.8
+    return calc_pokemon_moveset_tdo(atk, def_, hp, fast_ppt, fast_ept, charge_ppe,
+        atk_b, def_b, fast_ppt_b, fast_ept_b, charge_ppe_b,
+        fast_mult_a=fast_mult, charge_mult_a=charge_mult)
+
+def calc_pokemon_moveset_propto_tdo(atk, def_, hp, fast_ppt, fast_ept, charge_ppe, fast_mult=1, charge_mult=1):
+    """Calculate something proportional to a Pokémon's TDO"""
+    return (fast_ppt*fast_mult + fast_ept*charge_ppe*charge_mult) * atk * def_ * hp
