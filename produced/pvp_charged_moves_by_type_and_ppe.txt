@@ -1,4 +1,4 @@
-                         name type_name  power   ΔE  DP100E       DPE
+                         name type_name  power   ΔE  PP100E       PPE
 0                Hydro Cannon     Water   90.0  -40     225  2.250000
 1                Origin Pulse     Water  130.0  -60     216  2.166667
 2                  Hydro Pump     Water  130.0  -75     173  1.733333

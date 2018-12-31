@@ -1,4 +1,4 @@
-                         name type_name  power   ΔE  DP100E       DPE
+                         name type_name  power   ΔE  PP100E       PPE
 0                 Doom Desire     Steel   80.0  -35     228  2.285714
 1                Hydro Cannon     Water   90.0  -40     225  2.250000
 2                Frenzy Plant     Grass  100.0  -45     222  2.222222

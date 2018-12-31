@@ -1,4 +1,4 @@
-             name type_name  power  ΔE  turns  DPT  EPT  ZEPDOOS
+             name type_name  power  ΔE  turns  PPT  EPT  ZEPDOOS
 0         Counter  Fighting    8.0   7      1  8.0  7.0     17.8
 1       Vine Whip     Grass    5.0   8      1  5.0  8.0     16.2
 2    Bullet Punch     Steel    6.0   7      1  6.0  7.0     15.8

@@ -128,49 +128,49 @@ def best_pvp_moves(args):
     fast_df = calc_fast_attack_stats(fast_df)
     charged_df = calc_charged_attack_stats(charged_df)
 
+    # def save_df(df, COLS, path, print_n=0):
+    #     with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+    #         table = df[COLS].rename(columns=SHORTER_COLUMN_NAMES).reset_index(drop=True)
+    #         if print_n > 0:
+    #             print(table.head(print_n))
+    #         with open(path, 'w') as f:
+    #             print(table, file=f)
+    def print_or_save_df(df, path=None, print_n=0):
+            with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+                table = df.rename(columns=SHORTER_COLUMN_NAMES).reset_index(drop=True)
+                if print_n > 0:
+                    print(table.head(print_n))
+                elif print_n == -1:
+                    print(table)
+                if path:
+                    with open(path, 'w') as f:
+                        print(table, file=f)
+
     print('\nBest PPT moves:')
     best_fast_ppt = fast_df.sort_values(by=['PPT', 'ZEPDOOS'], ascending=False)
-    with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-        table = best_fast_ppt[FAST_MOVE_VISIBLE_COLUMNS].rename(columns=SHORTER_COLUMN_NAMES).reset_index(drop=True)
-        print(table.head(10))
-        with open(args.save_fast_ppt, 'w') as f:
-            print(table, file=f)
+    fast_ppt_txt_path = os.path.join(args.save_tables, 'pvp_fast_moves_by_ppt.txt') if args.save_tables else None
+    print_or_save_df(best_fast_ppt[FAST_MOVE_VISIBLE_COLUMNS], path=fast_ppt_txt_path, print_n=10)
 
     print('\nBest EPT moves:')
     best_fast_ept = fast_df.sort_values(by=['EPT', 'ZEPDOOS'], ascending=False)
-    with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-        table = best_fast_ept[FAST_MOVE_VISIBLE_COLUMNS].rename(columns=SHORTER_COLUMN_NAMES).reset_index(drop=True)
-        print(table.head(10))
-        with open(args.save_fast_ept, 'w') as f:
-            print(table, file=f)
+    fast_ept_txt_path = os.path.join(args.save_tables, 'pvp_fast_moves_by_ept.txt') if args.save_tables else None
+    print_or_save_df(best_fast_ept[FAST_MOVE_VISIBLE_COLUMNS], path=fast_ept_txt_path, print_n=10)
 
     print('\nBest zepdoos moves:')
     best_fast_zepdoos = fast_df.sort_values(by='ZEPDOOS', ascending=False)
-    with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-        table = best_fast_zepdoos[FAST_MOVE_VISIBLE_COLUMNS].rename(columns=SHORTER_COLUMN_NAMES).reset_index(drop=True)
-        print(table)
-        with open(args.save_fast_zepdoos, 'w') as f:
-            print(table, file=f)
+    fast_zepdoos_txt_path = os.path.join(args.save_tables, 'pvp_fast_moves_by_zepdoos.txt') if args.save_tables else None
+    print_or_save_df(best_fast_zepdoos[FAST_MOVE_VISIBLE_COLUMNS], path=fast_zepdoos_txt_path, print_n=-1)
     best_fast_type_zepdoos = fast_df.sort_values(by=['type', 'ZEPDOOS'], ascending=False)
-    with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-        table = best_fast_type_zepdoos[FAST_MOVE_VISIBLE_COLUMNS].rename(columns=SHORTER_COLUMN_NAMES).reset_index(drop=True)
-        # print(table)
-        with open(args.save_fast_type_zepdoos, 'w') as f:
-            print(table, file=f)
+    fast_type_zepdoos_txt_path = os.path.join(args.save_tables, 'pvp_fast_moves_by_type_and_zepdoos.txt') if args.save_tables else None
+    print_or_save_df(best_fast_type_zepdoos[FAST_MOVE_VISIBLE_COLUMNS], path=fast_type_zepdoos_txt_path, print_n=0)
 
     print('\nBest charge moves for PvP (PPE):')
     best_charged_ppe = charged_df.sort_values(by='PPE', ascending=False)
-    with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-        table = best_charged_ppe[CHARGED_MOVE_VISIBLE_COLUMNS].rename(columns=SHORTER_COLUMN_NAMES).reset_index(drop=True)
-        print(table.head(30))
-        with open(args.save_charged_ppe, 'w') as f:
-            print(table, file=f)
+    charged_ppe_txt_path = os.path.join(args.save_tables, 'pvp_charged_moves_by_ppe.txt') if args.save_tables else None
+    print_or_save_df(best_charged_ppe[CHARGED_MOVE_VISIBLE_COLUMNS], path=charged_ppe_txt_path, print_n=30)
     best_charged_type_ppe = charged_df.sort_values(by=['type', 'PPE'], ascending=False)
-    with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-        table = best_charged_type_ppe[CHARGED_MOVE_VISIBLE_COLUMNS].rename(columns=SHORTER_COLUMN_NAMES).reset_index(drop=True)
-        # print(table.head(30))
-        with open(args.save_charged_type_ppe, 'w') as f:
-            print(table, file=f)
+    charged_type_ppe_txt_path = os.path.join(args.save_tables, 'pvp_charged_moves_by_type_and_ppe.txt') if args.save_tables else None
+    print_or_save_df(best_charged_type_ppe[CHARGED_MOVE_VISIBLE_COLUMNS], path=charged_type_ppe_txt_path, print_n=0)
 
 def show_pvp_pokemon_info(rows, fast_df, charged_df, maximum_movesets=10):
     for row in rows.itertuples():
@@ -291,12 +291,7 @@ def parse_args():
     common_parser.add_argument('--game-master')
 
     best_moves_parser = subparsers.add_parser('best_pvp_moves', parents=[common_parser], help='Print best moves.')
-    best_moves_parser.add_argument('--save-fast-ppt', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_fast_moves_by_ppt.txt'))
-    best_moves_parser.add_argument('--save-fast-ept', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_fast_moves_by_ept.txt'))
-    best_moves_parser.add_argument('--save-fast-zepdoos', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_fast_moves_by_zepdoos.txt'))
-    best_moves_parser.add_argument('--save-fast-type-zepdoos', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_fast_moves_by_type_and_zepdoos.txt'))
-    best_moves_parser.add_argument('--save-charged-ppe', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_charged_moves_by_ppe.txt'))
-    best_moves_parser.add_argument('--save-charged-type-ppe', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_charged_moves_by_type_and_ppe.txt'))
+    best_moves_parser.add_argument('--save-tables')
     best_moves_parser.set_defaults(func=best_pvp_moves)
 
     pvp_mon_parser = subparsers.add_parser('pokemon', aliases=['pok', 'mon'], parents=[common_parser], help='Show pokemon info.')
