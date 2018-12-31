@@ -270,6 +270,11 @@ def interactive_pvp_mon_search(args):
 				else:
 					print('Couldn\'t find any pokemon named `{}`.'.format(query.title()))
 
+def prompt_download_data(args):
+	data.download_data(args.data_dir, latest=False)
+
+def download_data(args):
+	data.download_data(args.data_dir, latest=args.latest)
 
 def parse_args():
 	parser = argparse.ArgumentParser(description='')
@@ -287,12 +292,15 @@ def parse_args():
 	best_moves_parser.add_argument('--save-fast-type-zepdoos', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_fast_moves_by_type_and_zepdoos.txt'))
 	best_moves_parser.add_argument('--save-charged-dpe', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_charged_moves_by_dpe.txt'))
 	best_moves_parser.add_argument('--save-charged-type-dpe', default=os.path.join(os.path.dirname(__file__), '..', 'data', 'pvp_charged_moves_by_type_and_dpe.txt'))
+	best_moves_parser.set_defaults(func=best_pvp_moves)
 
-	pvp_mon_parser = subparsers.add_parser('pvp_mon', parents=[common_parser], help='Show pokemon info.')
+	pvp_mon_parser = subparsers.add_parser('pokemon', aliases=['pok', 'mon'], parents=[common_parser], help='Show pokemon info.')
 	pvp_mon_parser.add_argument('--query')
+	pvp_mon_parser.set_defaults(func=interactive_pvp_mon_search)
 
 	download_data_parser = subparsers.add_parser('download', parents=[common_parser], help='Download essential data.')
 	download_data_parser.add_argument('--latest', action='store_true', help='Download latest files (e.g. latest game master)')
+	download_data_parser.set_defaults(func=download_data)
 
 	args = parser.parse_args()
 	if args.game_master is None:
@@ -301,13 +309,7 @@ def parse_args():
 
 def main():
 	args = parse_args()
-	if args.command == 'best_pvp_moves':
-		best_pvp_moves(args)
-	elif args.command == 'pvp_mon':
-		interactive_pvp_mon_search(args)
-	elif args.command == 'download':
-		data.download_data(args.data_dir, latest=args.latest)
-
+	args.func(args)
 
 if __name__ == '__main__':
 	main()
