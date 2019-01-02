@@ -45,7 +45,7 @@ CHARGED_MOVE_COLUMN_ORDER_PRE = ['uniqueId', 'name', 'type', 'power', 'energyDel
 CHARGED_MOVE_COLUMN_ORDER = ['uniqueId', 'name', 'type', 'power', 'energyDelta', 'PP100E', 'PPE']
 CHARGED_MOVE_VISIBLE_COLUMNS = ['name', 'type_name', 'power', 'energyDelta', 'PP100E', 'PPE']
 
-POKEMON_COLUMN_ORDER = ['dex', 'pokemonId', 'complete_name', 'name', 'type', 'type2', 'quickMoves', 'cinematicMoves', 'stamina', 'attack', 'defense']
+POKEMON_COLUMN_ORDER = ['dex', 'pokemonId', 'complete_name', 'name', 'form', 'type', 'type2', 'quickMoves', 'cinematicMoves', 'stamina', 'attack', 'defense']
 
 SHORTER_COLUMN_NAMES = {
     'energyDelta': 'ΔE',
@@ -96,8 +96,7 @@ def process_game_master(game_master_path):
             p['dex'] = int(template_match.group(1))
             p['complete_name'] = re.sub(r'_', ' ', template_match.group(2)).title()
             p['name'] = re.sub(r'_', ' ', pok['pokemonId']).title()
-            # if template_match.group(2):
-            #   p['name'] = 'Alolan ' + p['name']
+            p['form'] = pok['form'] if 'form' in pok else None
             p['stamina'] = pok['stats']['baseStamina']
             p['attack'] = pok['stats']['baseAttack']
             p['defense'] = pok['stats']['baseDefense']
@@ -106,6 +105,12 @@ def process_game_master(game_master_path):
     fast_df = pd.DataFrame(fast_moves)[FAST_MOVE_COLUMN_ORDER_PRE]
     charged_df = pd.DataFrame(charged_moves)[CHARGED_MOVE_COLUMN_ORDER_PRE]
     pokemon_df = pd.DataFrame(pokemons)[POKEMON_COLUMN_ORDER]
+
+    # Filter entries for pokémon which have form.
+    no_form_mask = pokemon_df['form'].isnull()
+    dex_has_forms = pokemon_df.loc[~no_form_mask, 'dex'].unique()
+    pokemon_df = pokemon_df.loc[~(pokemon_df['dex'].isin(dex_has_forms) & no_form_mask)]
+
     return fast_df, charged_df, pokemon_df
 
 def calc_fast_attack_stats(fast_df, zepdoos_c=formulas.ZEPDOOS_C):
@@ -128,13 +133,6 @@ def best_pvp_moves(args):
     fast_df = calc_fast_attack_stats(fast_df)
     charged_df = calc_charged_attack_stats(charged_df)
 
-    # def save_df(df, COLS, path, print_n=0):
-    #     with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-    #         table = df[COLS].rename(columns=SHORTER_COLUMN_NAMES).reset_index(drop=True)
-    #         if print_n > 0:
-    #             print(table.head(print_n))
-    #         with open(path, 'w') as f:
-    #             print(table, file=f)
     def print_or_save_df(df, path=None, print_n=0):
             with pd.option_context('display.max_rows', None, 'display.max_columns', None):
                 table = df.rename(columns=SHORTER_COLUMN_NAMES).reset_index(drop=True)
