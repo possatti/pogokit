@@ -36,6 +36,7 @@ zepdoos defines, it makes much sense.
 """
 
 STAB_MULTIPLIER = 1.2
+LEGACY_IDENTIFIER = ' (✝)'
 
 FAST_MOVE_COLUMN_ORDER_PRE = ['uniqueId', 'name', 'type', 'power', 'energyDelta', 'durationTurns']
 FAST_MOVE_COLUMN_ORDER = ['uniqueId', 'name', 'type', 'power', 'energyDelta', 'durationTurns', 'PPT', 'EPT', 'ZEPDOOS']
@@ -58,6 +59,7 @@ def type_from_gm_template_id(template_id):
 def process_game_master(game_master_path):
     with open(game_master_path, 'r') as f:
         gm = json.load(f)
+
     pokemons = []
     fast_moves = []
     charged_moves = []
@@ -170,7 +172,7 @@ def best_pvp_moves(args):
     charged_type_ppe_txt_path = os.path.join(args.save_tables, 'pvp_charged_moves_by_type_and_ppe.txt') if args.save_tables else None
     print_or_save_df(best_charged_type_ppe[CHARGED_MOVE_VISIBLE_COLUMNS], path=charged_type_ppe_txt_path, print_n=0)
 
-def show_pvp_pokemon_info(rows, fast_df, charged_df, maximum_movesets=10):
+def show_pvp_pokemon_info(rows, fast_df, charge_df, maximum_movesets=25, legacy_fast_df=None, legacy_charge_df=None):
     for row in rows.itertuples():
         complete_type = type_from_gm_template_id(row.type)
         if row.type2:
@@ -185,7 +187,11 @@ def show_pvp_pokemon_info(rows, fast_df, charged_df, maximum_movesets=10):
         print('Perfect IV league levels:  GL={}  UL={}  ML={}'.format(league_d['GL']['levels'][0], league_d['UL']['levels'][0], league_d['ML']['levels'][0]))
         print('Perfect IV league CPs:     GL={}  UL={}  ML={}'.format(league_d['GL']['cps'][0], league_d['UL']['cps'][0], league_d['ML']['cps'][0]))
 
-        fast_moves = fast_df.loc[fast_df['uniqueId'].isin(row.quickMoves)].copy()
+        fast_moves = fast_df.loc[fast_df['uniqueId'].isin(row.quickMoves)].copy().assign(legacy=False)
+        fast_leg_names = legacy_fast_df.loc[legacy_fast_df['pokemon_name']==row.name, 'fast_move']
+        fast_moves_leg = fast_df.loc[fast_df['name'].isin(fast_leg_names)].copy().assign(legacy=True)
+        fast_moves = pd.concat([fast_moves, fast_moves_leg], ignore_index=True)
+        fast_moves['pretty'] = np.where(fast_moves['legacy'], fast_moves['name']+LEGACY_IDENTIFIER, fast_moves['name'])
         fast_moves['STAB'] = np.logical_or(fast_moves['type']==row.type, fast_moves['type']==row.type2)
         fast_moves['STAB_M'] = np.where(fast_moves['STAB'], STAB_MULTIPLIER, 1)
         fast_moves['R_PPT'] = fast_moves['PPT'] * fast_moves['STAB_M']
@@ -194,30 +200,33 @@ def show_pvp_pokemon_info(rows, fast_df, charged_df, maximum_movesets=10):
         print('\nFast moves:')
         for move in fast_moves.itertuples():
             stab_str = 'STAB' if move.STAB else ''
+            pretty_name = move.name + ' ✝' if move.legacy else move.name
             print(' - [{: <4}] [{: <8}] {: <17} (TURNS={} POWER={:<2.0f} ΔE={:<2} PPT={:<4.1f} EPT={:<4.1f} ZEPDOOS={:<4.1f})'.format(
-                stab_str, move.type_name, move.name, move.durationTurns, move.power,
+                stab_str, move.type_name, move.pretty, move.durationTurns, move.power,
                 move.energyDelta, move.R_PPT, move.EPT, move.R_ZEPDOOS))
 
-        charged_moves = charged_df.loc[charged_df['uniqueId'].isin(row.cinematicMoves)].copy()
-        charged_moves['STAB'] = np.logical_or(charged_moves['type']==row.type, charged_moves['type']==row.type2)
-        charged_moves['STAB_M'] = np.where(charged_moves['STAB'], STAB_MULTIPLIER, 1)
-        charged_moves['R_PPE'] = charged_moves['power'] * charged_moves['STAB_M'] / np.abs(charged_moves['energyDelta'])
-        charged_moves['R_PP100E'] = np.floor(charged_moves['R_PPE'] * 100).astype(int)
-        charged_moves = charged_moves.sort_values(by='R_PPE', ascending=False, inplace=False)
+        charge_moves = charge_df.loc[charge_df['uniqueId'].isin(row.cinematicMoves)].copy().assign(legacy=False)
+        charge_leg_names = legacy_charge_df.loc[legacy_charge_df['pokemon_name']==row.name, 'charge_move']
+        charge_moves_leg = charge_df.loc[charge_df['name'].isin(charge_leg_names)].copy().assign(legacy=True)
+        charge_moves = pd.concat([charge_moves, charge_moves_leg])
+        charge_moves['pretty'] = np.where(charge_moves['legacy'], charge_moves['name']+LEGACY_IDENTIFIER, charge_moves['name'])
+        charge_moves['STAB'] = np.logical_or(charge_moves['type']==row.type, charge_moves['type']==row.type2)
+        charge_moves['STAB_M'] = np.where(charge_moves['STAB'], STAB_MULTIPLIER, 1)
+        charge_moves['R_PPE'] = charge_moves['power'] * charge_moves['STAB_M'] / np.abs(charge_moves['energyDelta'])
+        charge_moves['R_PP100E'] = np.floor(charge_moves['R_PPE'] * 100).astype(int)
+        charge_moves = charge_moves.sort_values(by='R_PPE', ascending=False, inplace=False)
         print('\nCharged moves:')
-        for move in charged_moves.itertuples():
+        for move in charge_moves.itertuples():
             stab_str = 'STAB' if move.STAB else ''
             print(' - [{: <4}] [{: <8}] {: <17} (POWER={:<3.0f} ΔE={:<3} PP100E={:<3})'.format(
-                stab_str, move.type_name, move.name, move.power, move.energyDelta, move.R_PP100E))
+                stab_str, move.type_name, move.pretty, move.power, move.energyDelta, move.R_PP100E))
 
         movesets = []
-        for fast_move in row.quickMoves:
-            for charged_move in row.cinematicMoves:
-                fast = fast_moves.loc[fast_moves['uniqueId']==fast_move].iloc[0]
-                charged = charged_moves.loc[charged_moves['uniqueId']==charged_move].iloc[0]
+        for f, fast in fast_moves.iterrows():
+            for c, charged in charge_moves.iterrows():
                 movesets.append({
-                    'fast_name': fast['name'],
-                    'charged_name': charged['name'],
+                    'fast_name': fast['pretty'],
+                    'charged_name': charged['pretty'],
                     'PPT': fast['R_PPT']+charged['R_PPE']*fast['EPT'],
                     # 'TDO': formulas.calc_pokemon_moveset_tdo_ref(
                     #     row.attack+15, row.defense+15, max_hp,
@@ -252,6 +261,8 @@ def interactive_pvp_mon_search(args):
     fast_df, charged_df, pok_df = process_game_master(args.game_master)
     fast_df = calc_fast_attack_stats(fast_df)
     charged_df = calc_charged_attack_stats(charged_df)
+    legacy_fast_df = pd.read_csv(args.legacy_fast)
+    legacy_charge_df = pd.read_csv(args.legacy_charge)
 
     # Interactive loop.
     do_quit = False
@@ -268,14 +279,17 @@ def interactive_pvp_mon_search(args):
         if query.isdigit():
             dex_number = int(query)
             rows = pok_df.loc[pok_df['dex']==dex_number]
-            show_pvp_pokemon_info(rows, fast_df, charged_df)
+            show_pvp_pokemon_info(rows, fast_df, charged_df,
+                legacy_fast_df=legacy_fast_df, legacy_charge_df=legacy_charge_df)
         else:
             complete_rows = pok_df.loc[pok_df['complete_name']==query.title()]
             rows = pok_df.loc[pok_df['name']==query.title()]
             if len(rows) > 0:
-                show_pvp_pokemon_info(rows, fast_df, charged_df)
+                show_pvp_pokemon_info(rows, fast_df, charged_df,
+                    legacy_fast_df=legacy_fast_df, legacy_charge_df=legacy_charge_df)
             elif len(complete_rows) > 0:
-                show_pvp_pokemon_info(complete_rows, fast_df, charged_df)
+                show_pvp_pokemon_info(complete_rows, fast_df, charged_df,
+                    legacy_fast_df=legacy_fast_df, legacy_charge_df=legacy_charge_df)
             elif query == 'q' or query == 'quit' or raw_query == '':
                 do_quit = True
             elif query == '':
@@ -304,6 +318,8 @@ def parse_args():
     common_parser = argparse.ArgumentParser(add_help=False)
     common_parser.add_argument('--data-dir', default=data.get_data_dir())
     common_parser.add_argument('--game-master')
+    common_parser.set_defaults(legacy_fast=os.path.join(os.path.dirname(__file__), 'legacy_fast_moves.csv'))
+    common_parser.set_defaults(legacy_charge=os.path.join(os.path.dirname(__file__), 'legacy_charge_moves.csv'))
 
     best_moves_parser = subparsers.add_parser('best_pvp_moves', parents=[common_parser], help='Print best moves.')
     best_moves_parser.add_argument('--save-tables')

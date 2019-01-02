@@ -10,6 +10,9 @@ setup(
     license='MIT',
 
     packages=['pogokit'],
+    package_data={
+        'pogokit': ['legacy*.csv']
+    },
     install_requires=[
         'numpy>=1.14',
         'pandas>=0.23',
