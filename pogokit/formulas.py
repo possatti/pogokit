@@ -89,6 +89,8 @@ CP_MULTIPLIERS = {
     40: 0.79030001,
 }
 
+lvl_to_cpm = np.vectorize(lambda lvl: CP_MULTIPLIERS[lvl])
+
 def calc_cp(attack, defense, stamina, lvl=None, cpm=None):
     """Please include IV on attributes."""
     if cpm is None:
@@ -103,7 +105,7 @@ def calc_zepdoos_score(ppt, ept, zepdoos_c=ZEPDOOS_C):
     return ppt + zepdoos_c * ept
 
 def calc_hp(stamina, lvl):
-    return np.floor(stamina * CP_MULTIPLIERS[lvl])
+    return np.floor(stamina * lvl_to_cpm(lvl))
 
 def calc_pokemon_moveset_tdo(atk_a, def_a, hp_a, fast_ppt_a, fast_ept_a, charge_ppe_a,
     atk_b, def_b, fast_ppt_b, fast_ept_b, charge_ppe_b,
@@ -132,9 +134,11 @@ def find_league_pokemon(atks, defs, stas):
     else:
         n_pokemon = 1
     levels = np.arange(1, 40.5, 0.5)
-    cpms = np.array([ CP_MULTIPLIERS[l] for l in levels ])
+    # cpms = np.array([ CP_MULTIPLIERS[l] for l in levels ])
+    cpms = np.array(list(CP_MULTIPLIERS.values()))
     cpms_sqr = cpms**2
     cps = atks * (defs**0.5) * (stas**0.5)
+    cps = np.array(cps) # In case they were pandas series before.
     cps = cps * cpms_sqr[:,np.newaxis]
     cps /= 10
     cps = np.floor(cps).astype(int)

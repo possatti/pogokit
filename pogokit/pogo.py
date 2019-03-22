@@ -5,6 +5,7 @@ from __future__ import print_function, division
 
 import pandas as pd
 import numpy as np
+import itertools
 import argparse
 import pprint
 import json
@@ -49,6 +50,9 @@ CHARGED_MOVE_VISIBLE_COLUMNS = ['name', 'type_name', 'power', 'energyDelta', 'PP
 POKEMON_COLUMN_ORDER = ['dex', 'pokemonId', 'complete_name', 'name', 'form', 'type', 'type2', 'quickMoves', 'cinematicMoves', 'stamina', 'attack', 'defense']
 
 SHORTER_COLUMN_NAMES = {
+    'attack': 'atk',
+    'defense': 'def',
+    'stamina': 'sta',
     'energyDelta': 'ΔE',
     'durationTurns': 'turns',
 }
@@ -171,6 +175,99 @@ def best_pvp_moves(args):
     best_charged_type_ppe = charged_df.sort_values(by=['type', 'PPE'], ascending=False)
     charged_type_ppe_txt_path = os.path.join(args.save_tables, 'pvp_charged_moves_by_type_and_ppe.txt') if args.save_tables else None
     print_or_save_df(best_charged_type_ppe[CHARGED_MOVE_VISIBLE_COLUMNS], path=charged_type_ppe_txt_path, print_n=0)
+
+def make_combinations(list1, list2):
+    result = []
+    for l1 in list1:
+        for l2 in list2:
+            result.append((l1, l2))
+    return result
+
+def best_pvp_mons(args):
+    fast_df, charge_df, pok_df = process_game_master(args.game_master)
+    fast_df = calc_fast_attack_stats(fast_df)
+    charge_df = calc_charged_attack_stats(charge_df)
+    legacy_fast_df = pd.read_csv(args.legacy_fast)
+    legacy_charge_df = pd.read_csv(args.legacy_charge)
+
+    # TODO: Add legacy moves.
+    # DataFrame where each line is a pokemon with a specific moveset.
+    mon_table = []
+    mon_table_col_order = ['dex', 'pokemonId', 'name', 'type', 'type2', 'stamina', 'attack', 'defense', 'fast_id', 'charge_id']
+    for p, pok in pok_df.iterrows():
+        fast_move_ids = pok['quickMoves']
+        charge_move_ids = pok['cinematicMoves']
+
+        combinations = make_combinations(fast_move_ids, charge_move_ids)
+        for fast_id, charge_id in combinations:
+            mon_table.append({
+                'dex': pok['dex'],
+                'pokemonId': pok['pokemonId'],
+                'name': pok['complete_name'],
+                'type': pok['type'],
+                'type2': pok['type2'],
+                'stamina': pok['stamina'],
+                'attack': pok['attack'],
+                'defense': pok['defense'],
+                'fast_id': fast_id,
+                'charge_id': charge_id,
+            })
+        print('INFO: {} of {}.\r'.format(p+1, len(pok_df)), end='', file=sys.stderr)
+    print(file=sys.stderr)
+
+    mon_table = pd.DataFrame(mon_table)[mon_table_col_order]
+    league_d = formulas.find_league_pokemon(mon_table['attack']+0, mon_table['defense']+0, mon_table['stamina']+0)
+    mon_table = pd.merge(mon_table, fast_df.add_prefix('fast_'), how='left', left_on='fast_id', right_on='fast_uniqueId', suffixes=('', '_fast'))
+    mon_table = pd.merge(mon_table, charge_df.add_prefix('charge_'), how='left', left_on='charge_id', right_on='charge_uniqueId', suffixes=('', '_charge'))
+    mon_table.drop(columns=['fast_uniqueId', 'charge_uniqueId', 'fast_type_name', 'charge_type_name',
+        'fast_power', 'fast_energyDelta', 'fast_durationTurns', 'fast_ZEPDOOS',
+        'charge_power', 'charge_energyDelta', 'charge_PP100E'], inplace=True)
+    mon_table['fast_stab_m'] = np.where((mon_table['type']==mon_table['fast_type'])|(mon_table['type2']==mon_table['fast_type']), 1.2, 1)
+    mon_table['charge_stab_m'] = np.where((mon_table['type']==mon_table['charge_type'])|(mon_table['type2']==mon_table['charge_type']), 1.2, 1)
+    for x in ['gl', 'ul', 'ml']:
+        mon_table[x+'_lvl'] = league_d[x.upper()]['levels']
+        mon_table[x+'_cp'] = league_d[x.upper()]['cps']
+        cpms = np.array([formulas.CP_MULTIPLIERS[lvl] for lvl in mon_table[x+'_lvl']])
+        mon_table[x+'_tdo'] = formulas.calc_pokemon_moveset_tdo_ref(
+            (mon_table['attack']+0)*cpms, (mon_table['defense']+0)*cpms, formulas.calc_hp((mon_table['stamina']+0), mon_table[x+'_lvl']),
+            mon_table['fast_PPT'], mon_table['fast_EPT'], mon_table['charge_PPE'],
+            fast_mult=mon_table['fast_stab_m'], charge_mult=mon_table['charge_stab_m'],
+        )
+    cpm_lvl1 = formulas.CP_MULTIPLIERS[1]
+    mon_table['lvl1_tdo'] = formulas.calc_pokemon_moveset_tdo_ref(
+            (mon_table['attack']+0)*cpm_lvl1, (mon_table['defense']+0)*cpm_lvl1, formulas.calc_hp((mon_table['stamina']+0), 1),
+            mon_table['fast_PPT'], mon_table['fast_EPT'], mon_table['charge_PPE'],
+            fast_mult=mon_table['fast_stab_m'], charge_mult=mon_table['charge_stab_m'],
+        )
+    # with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+    #     print("mon_table.head(20):\n{}".format(mon_table.head(20)), file=sys.stderr) #!#
+    # exit(3)
+    mon_table_visible_columns = ['dex', 'name', 'stamina', 'attack', 'defense', 'fast_name', 'charge_name']
+    with pd.option_context(
+        'display.max_rows', None,
+        'display.max_columns', None,
+        'display.max_colwidth', -1,
+        'display.width', 1000):
+        mon_table_lvl1 = mon_table[mon_table_visible_columns+['lvl1_tdo']].copy()
+        mon_table_lvl1.rename(columns=SHORTER_COLUMN_NAMES, inplace=True)
+        mon_table_lvl1 = mon_table_lvl1.sort_values(by=['lvl1_tdo'], ascending=False).reset_index(drop=True)
+        if args.save_tables:
+            if not os.path.isdir(args.save_tables):
+                os.makedirs(args.save_tables)
+            for x in ['gl', 'ul', 'ml']:
+                # TODO: Fix CP. The table is showing super weird CP values that are far from the CP caps.
+                # mon_table_league = mon_table[mon_table_visible_columns+[x+'_lvl', x+'_cp', x+'_tdo']].copy()
+                mon_table_league = mon_table[mon_table_visible_columns+[x+'_lvl', x+'_tdo']].copy()
+                mon_table_league.rename(columns=SHORTER_COLUMN_NAMES, inplace=True)
+                mon_table_league = mon_table_league.sort_values(by=[x+'_tdo'], ascending=False).reset_index(drop=True)
+                save_path = os.path.join(args.save_tables, 'best_pvp_mons_{}_by_tdo.txt'.format(x))
+                with open(save_path, 'w') as f:
+                    print(mon_table_league, file=f)
+            save_path = os.path.join(args.save_tables, 'best_pvp_mons_lvl1_by_tdo.txt')
+            with open(save_path, 'w') as f:
+                print(mon_table_lvl1, file=f)
+        print('Best level 1 Pokémon for PvP:')
+        print(mon_table_lvl1.head(30))
 
 def show_pvp_pokemon_info(rows, fast_df, charge_df, maximum_movesets=25, legacy_fast_df=None, legacy_charge_df=None):
     for row in rows.itertuples():
@@ -324,6 +421,10 @@ def parse_args():
     best_moves_parser = subparsers.add_parser('best_pvp_moves', parents=[common_parser], help='Print best moves.')
     best_moves_parser.add_argument('--save-tables')
     best_moves_parser.set_defaults(func=best_pvp_moves)
+
+    best_mons_parser = subparsers.add_parser('best_pvp_mons', parents=[common_parser], help='Find the best Pokémon for PvP in the game.')
+    best_mons_parser.add_argument('--save-tables')
+    best_mons_parser.set_defaults(func=best_pvp_mons)
 
     pvp_mon_parser = subparsers.add_parser('pokemon', aliases=['pok', 'mon'], parents=[common_parser], help='Show pokemon info.')
     pvp_mon_parser.add_argument('--query')
